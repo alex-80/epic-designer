@@ -1,78 +1,104 @@
-import { type PropType, defineComponent, h, nextTick, ref, watch } from 'vue'
-import { NUpload, NButton } from 'naive-ui'
-import type { UploadFileInfo } from 'naive-ui'
-import { type OnFinish, type OnError } from 'naive-ui/es/upload/src/interface'
+import type { UploadFileInfo, UploadOnFinish } from 'naive-ui';
+import type { OnError } from 'naive-ui/es/upload/src/interface';
+
+import { defineComponent, h, nextTick, ref, watch } from 'vue';
+
+import { getFileNameByUrl, getUUID } from '@epic-designer/utils';
+import { NButton, NUpload } from 'naive-ui';
 
 export default defineComponent({
+  emits: ['update:modelValue', 'change'],
   props: {
     modelValue: {
-      type: Array as PropType<UploadFileInfo []>,
-      default: () => []
-    }
+      default: '',
+      type: String,
+    },
   },
-  emits: ['update:modelValue'],
-  setup (props, { emit, attrs }) {
-    const fileList = ref<UploadFileInfo[]>([])
-    watch(fileList, (e) => {
-      emit('update:modelValue', e)
-    })
+  setup(props, { attrs, emit }) {
+    const fileList = ref<UploadFileInfo[]>([]);
+    let urlString = '';
+
+    watch(
+      () => fileList.value,
+      (list) => {
+        urlString = list
+          .filter((file) => file.status === 'finished')
+          .map((file) => file.url)
+          .join(',');
+        emit('update:modelValue', urlString);
+        emit('change', urlString);
+      },
+    );
     // 处理传递进来的值
     watch(
       () => props.modelValue,
-      (e) => {
-        if ((e != null) && e.length > 0 && (fileList.value != null)) {
-          // props modelValue 等于 data 不进行处理
-          if (fileList.value === e) return
-          fileList.value.length = 0
-          fileList.value.push(...e)
+      (modelValue) => {
+        // urlString 等于 data 不进行处理
+        if (urlString === modelValue) return;
+
+        if (modelValue === '') {
+          fileList.value = [];
+          return;
+        }
+
+        if (modelValue !== null && fileList.value !== null) {
+          fileList.value = modelValue.split(',').map((url) => ({
+            id: getUUID() as string,
+            name: getFileNameByUrl(url),
+            status: 'finished',
+            url,
+          }));
         }
       },
-      { deep: true, immediate: true }
-    )
-    function handleUpdate (e: UploadFileInfo[]): void {
-      console.log('onChange called->', e)
-      nextTick(() => { fileList.value = e })
+      { immediate: true },
+    );
+    function handleUpdate(e: UploadFileInfo[]): void {
+      nextTick(() => {
+        fileList.value = e;
+      });
     }
 
-    const handleError: OnError = ({ file, event }) => {
-      console.log('OnError called->', file, event)
-    }
-    const handleSuccess: OnFinish = ({ file, event }) => {
-      console.log('OnFinish called->', file, event)
-      const resInfo = event?.target as any
-      const resData = JSON.parse(resInfo.response ?? '{}')
-      file.url = resData.data?.url
-    }
+    const handleError: OnError = () => {};
+    const handleSuccess: UploadOnFinish = ({ event, file }) => {
+      const resInfo = event?.target as XMLHttpRequest;
+      const resData = JSON.parse(resInfo?.response ?? '{}');
+      file.url = resData.data?.url;
+    };
 
     return () => {
       return h('div', null, {
         default: () => [
-          h(NUpload, {
-            ...attrs,
-            'onUpdate:file-list': handleUpdate,
-            "file-list": fileList.value,
-            onError: handleError,
-            onFinish: handleSuccess,
-            'default-upload': true
-          }, {
-            default: () => [
-              h(
-                NButton,
-                {},
-                {
-                  default: () => [
-                    h('span', {
-                      class: 'iconfont epic-icon-shangchuan1',
-                      style: { 'margin-right': '2px' }
-                    }),
-                    h('span', null, { default: () => '上传文件' })
-                  ]
-                }
-              )
-            ]
-          })
-        ]
-      })
-    }
-  }
-})
+          h(
+            NUpload,
+            {
+              ...attrs,
+              'default-upload': true,
+              onError: handleError,
+              onFinish: handleSuccess,
+              'file-list': fileList.value,
+              'onUpdate:file-list': handleUpdate,
+            },
+            {
+              default: () => [
+                h(
+                  NButton,
+                  {},
+                  {
+                    default: () => [
+                      h('span', {
+                        class:
+                          'icon--epic icon--epic--cloud-upload-outlined text-lg',
+                        style: { 'margin-right': '2px' },
+                      }),
+                      h('span', null, { default: () => '上传文件' }),
+                    ],
+                  },
+                ),
+              ],
+            },
+          ),
+        ],
+      });
+    };
+  },
+});

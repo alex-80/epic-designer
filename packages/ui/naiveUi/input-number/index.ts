@@ -1,137 +1,146 @@
-import { type ComponentConfigModel } from '@epic-designer/utils'
+import type { ComponentConfigModel } from '@epic-designer/utils';
+
 export default {
-  component: async () => (await import('naive-ui/lib/input-number')).NInputNumber,
-  defaultSchema: {
-    label: '数字输入框',
-    type: 'number',
-    icon: 'epic-icon-number',
-    field: 'number',
-    input: true,
-    componentProps: {
-      placeholder: '请输入',
-      size: 'medium',
-      buttonPlacement: 'right'
-    }
-  },
+  bindModel: 'value',
+  component: async () =>
+    (await import('naive-ui/lib/input-number')).NInputNumber,
   config: {
     attribute: [
       {
+        field: 'field',
         label: '字段名',
         type: 'input',
-        field: 'field'
       },
       {
-        label: '文字',
+        field: 'label',
+        label: '标题',
         type: 'input',
-        field: 'label'
       },
       {
+        field: 'componentProps.defaultValue',
         label: '默认值',
         type: 'number',
-        field: 'componentProps.defaultValue'
       },
       {
+        field: 'componentProps.placeholder',
         label: '占位内容',
         type: 'input',
-        field: 'componentProps.placeholder'
       },
       {
-        label: '尺寸',
-        type: 'select',
-        field: 'componentProps.size',
         componentProps: {
+          clearable: true,
           options: [
             {
-              label: 'tiny',
-              value: 'tiny'
+              label: '极小',
+              value: 'tiny',
             },
             {
-              label: 'small',
-              value: 'small'
+              label: '小型',
+              value: 'small',
             },
             {
-              label: 'medium',
-              value: 'medium'
+              label: '中等',
+              value: 'medium',
             },
             {
-              label: 'large',
-              value: 'large'
-            }
-          ]
-        }
+              label: '大号',
+              value: 'large',
+            },
+          ],
+          placeholder: '请选择',
+        },
+        field: 'componentProps.size',
+        label: '尺寸',
+        type: 'select',
       },
       {
-        label: '控制按钮位置',
-        type: 'select',
-        field: 'componentProps.buttonPlacement',
         componentProps: {
+          clearable: true,
           options: [
             {
               label: 'both',
-              value: 'both'
+              value: 'both',
             },
             {
               label: 'right',
-              value: 'right'
-            }
-          ]
-        }
+              value: 'right',
+            },
+          ],
+          placeholder: '请选择',
+        },
+        field: 'componentProps.buttonPlacement',
+        label: '控制按钮位置',
+        type: 'select',
       },
       {
+        componentProps: {
+          placeholder: '请输入',
+        },
+        field: 'componentProps.max',
         label: '最大值',
         type: 'number',
-        field: 'componentProps.max',
-        componentProps: {
-          placeholder: '请输入'
-        }
       },
       {
+        componentProps: {
+          placeholder: '请输入',
+        },
+        field: 'componentProps.min',
         label: '最小值',
         type: 'number',
-        field: 'componentProps.min',
-        componentProps: {
-          placeholder: '请输入'
-        }
       },
       {
+        componentProps: {
+          placeholder: '请输入',
+        },
+        field: 'componentProps.step',
         label: '步长',
         type: 'number',
-        field: 'componentProps.step',
-        componentProps: {
-          placeholder: '请输入'
-        }
       },
       {
+        componentProps: {
+          placeholder: '请输入',
+        },
+        field: 'componentProps.precision',
         label: '精度',
         type: 'number',
-        field: 'componentProps.precision',
-        componentProps: {
-          placeholder: '请输入'
-        }
       },
       {
+        field: 'componentProps.clearable',
         label: '可清空',
         type: 'switch',
-        field: 'componentProps.clearable'
       },
       {
+        field: 'componentProps.disabled',
         label: '禁用',
         type: 'switch',
-        field: 'componentProps.disabled'
       },
       {
+        field: 'componentProps.hidden',
         label: '隐藏',
         type: 'switch',
-        field: 'componentProps.hidden'
       },
       {
-        label: '表单校验',
-        type: 'ERuleEditor',
-        layout: 'vertical',
+        componentProps: {
+          ruleType: 'number',
+        },
+        description: '校验规则需要配合表单使用',
         field: 'rules',
-        describe: '校验规则需要配合表单使用'
-      }
-    ]
+        label: '表单校验',
+        layout: 'vertical',
+        type: 'ERuleEditor',
+      },
+    ],
   },
-  bindModel: 'value'
-} as ComponentConfigModel
+  defaultSchema: {
+    componentProps: {
+      placeholder: '请输入',
+    },
+    field: 'number',
+    input: true,
+    label: '数字输入框',
+    type: 'number',
+  },
+  groupName: '表单',
+  icon: 'icon--epic--123-rounded',
+  sort: 710,
+} as ComponentConfigModel;

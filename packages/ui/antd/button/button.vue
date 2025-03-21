@@ -1,16 +1,19 @@
+<script lang="ts" setup>
+import type { ComponentSchema } from '@epic-designer/types';
+
+import type { PropType } from 'vue';
+
+import { Button } from 'ant-design-vue';
+
+const props = defineProps({
+  componentSchema: {
+    default: () => ({}),
+    type: Object as PropType<ComponentSchema>,
+  },
+});
+</script>
 <template>
-  <Button v-bind="props.record?.componentProps">
-    <slot>{{ props.record?.label }}</slot>
+  <Button v-bind="props.componentSchema?.componentProps">
+    <slot>{{ props.componentSchema?.label }}</slot>
   </Button>
 </template>
-<script lang="ts" setup>
-import { PropType } from 'vue'
-import type { NodeItem } from '@epic-designer/core/types/epic-designer'
-import Button from 'ant-design-vue/lib/button'
-const props = defineProps({
-  record: {
-    type: Object as PropType<NodeItem>,
-    default: () => ({})
-  }
-})
-</script>

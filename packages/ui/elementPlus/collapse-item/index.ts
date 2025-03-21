@@ -1,13 +1,13 @@
-import { type ComponentConfigModel } from '@epic-designer/utils'
+import type { ComponentConfigModel } from '@epic-designer/utils';
+
 export default {
   component: () => import('./collapseItem'),
+  config: {
+    attribute: [],
+  },
   defaultSchema: {
     label: '折叠项',
     type: 'collapse-item',
-    icon: 'epic-icon-xiala',
-    children: []
+    children: [],
   },
-  config: {
-    attribute: []
-  }
-} as ComponentConfigModel
+} as ComponentConfigModel;

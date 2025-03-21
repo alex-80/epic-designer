@@ -1,25 +1,31 @@
-import type { PropType } from 'vue'
-import { defineComponent, h, renderSlot } from 'vue'
-import { NButton } from 'naive-ui'
-import { type NodeItem } from '@epic-designer/core/types/epic-designer'
+import type { ComponentSchema } from '@epic-designer/types';
+
+import type { PropType } from 'vue';
+
+import { defineComponent, h, renderSlot } from 'vue';
+
+import { NButton } from 'naive-ui';
 
 // 二次封装组件
 export default defineComponent({
   props: {
-    record: {
-      type: Object as PropType<NodeItem>,
-      default: () => ({})
-    }
+    componentSchema: {
+      default: () => ({}),
+      type: Object as PropType<ComponentSchema>,
+    },
   },
-  setup (props, { slots }) {
+  setup(props, { slots }) {
     return () => {
       const componentProps: Record<string, any> = {
-        ...props.record?.componentProps
-      }
+        ...props.componentSchema?.componentProps,
+      };
 
       return h(NButton, componentProps, {
-        default: () => renderSlot(slots, 'default', {}, () => [props.record?.label])
-      })
-    }
-  }
-})
+        default: () =>
+          renderSlot(slots, 'default', {}, () => [
+            props.componentSchema?.label,
+          ]),
+      });
+    };
+  },
+});

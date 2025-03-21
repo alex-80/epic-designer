@@ -1,24 +1,27 @@
-import { type ComponentConfigModel } from '@epic-designer/utils'
+import type { ComponentConfigModel } from '@epic-designer/utils';
+
 export default {
   component: () => import('./card'),
-  defaultSchema: {
-    label: '卡片布局',
-    type: 'card',
-    icon: 'epic-icon-qiapian',
-    children: []
-  },
   config: {
     attribute: [
       {
+        field: 'label',
         label: '标题',
         type: 'input',
-        field: 'label'
       },
       {
+        field: 'componentProps.hidden',
         label: '隐藏',
         type: 'switch',
-        field: 'componentProps.hidden'
-      }
-    ]
-  }
-} as ComponentConfigModel
+      },
+    ],
+  },
+  defaultSchema: {
+    label: '卡片布局',
+    type: 'card',
+    children: [],
+  },
+  groupName: '布局',
+  icon: 'icon--epic--wysiwyg-rounded',
+  sort: 900,
+} as ComponentConfigModel;

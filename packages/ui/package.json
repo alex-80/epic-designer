@@ -1,16 +1,15 @@
 {
   "name": "@epic-designer/ui",
-  "version": "1.0.0",
+  "version": "0.9.30",
   "description": "epic-designer base ui",
-  "main": "index.ts",
-  "scripts": {
-    "build": "vue-tsc --noEmit && vite build"
-  },
   "author": "kchengz",
+  "type": "module",
+  "scripts": {},
+  "main": "index.ts",
   "devDependencies": {
-    "vite-plugin-dts": "^3.3.1"
-  },
-  "dependencies": {
-    "ant-design-vue": "^4.0.6"
+    "ant-design-vue": "^4.2.6",
+    "element-plus": "^2.9.1",
+    "naive-ui": "^2.40.4",
+    "vite-plugin-dts": "^4.4.0"
   }
 }

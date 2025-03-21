@@ -1,42 +1,48 @@
-import { defineComponent, h, watch } from 'vue'
-import datePicker from 'ant-design-vue/lib/date-picker'
+import { defineComponent, h, watch } from 'vue';
+
+import { DatePicker } from 'ant-design-vue';
 // 二次封装组件
 export default defineComponent({
-  emits: ['update:value'],
-  setup (_, { emit, attrs }) {
+  emits: ['update:modelValue', 'change', 'blur'],
+  name: 'EDatePicker',
+  props: {
+    modelValue: {
+      default: null,
+      type: [String, Object, Array],
+    },
+    type: {
+      default: 'date',
+      type: String,
+    },
+  },
+  setup(props, { emit }) {
     watch(
-      () => attrs.type,
+      () => props.type,
       () => {
-        handleUpdate()
-      }
-    )
+        handleUpdate();
+      },
+    );
 
-    function handleUpdate (e = null): void {
-      emit('update:value', e)
+    function handleUpdate(e = null): void {
+      emit('update:modelValue', e);
+      emit('change', e);
+      emit('blur', e);
     }
     return () => {
-      let cmp: any = datePicker
-      const type = attrs.type
+      let cmp: any = DatePicker;
 
-      const props: Record<string, any> = {
-        ...attrs,
-        'onUpdate:value': handleUpdate
-      }
+      const compProps: Record<string, any> = {
+        'onUpdate:value': handleUpdate,
+        picker: props.type.replace(/range$/, ''),
+        showTime: props.type.includes('time'),
+        value: props.modelValue,
+      };
 
-      // 判断显示类型，渲染相应组件
-      if (type === 'daterange') {
-        // 默认值与组件类型不匹配时需清空默认值
-        if (typeof props.value !== 'object' && props.value !== null) { props.value = null }
-        cmp = datePicker.RangePicker
-      } else if (type === 'month') {
-        // 默认值与组件类型不匹配时需清空默认值
-        if (typeof props.value === 'object') props.value = null
-        cmp = datePicker.MonthPicker
-      } else {
-        // 默认值与组件类型不匹配时需清空默认值
-        if (typeof props.value === 'object') props.value = null
+      // 判断日期类型，渲染相应组件
+      if (props.type.includes('range')) {
+        cmp = DatePicker.RangePicker;
       }
-      return [h(cmp, props)]
-    }
-  }
-})
+      return h(cmp, compProps);
+    };
+  },
+});

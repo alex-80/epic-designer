@@ -1,51 +1,57 @@
-<template>
-  <div class="form-main" style="height: 100%;">
-    <Form ref="form" :model="formData" v-bind="componentProps" style="height: 100%;" @finish="onFinish">
-      <slot name="edit-node">
-        <slot v-for="item in children" name="node" :record="item" />
-      </slot>
-    </Form>
-  </div>
-</template>
 <script lang="ts" setup>
-import { ref, type Ref, type PropType, reactive, provide, computed, inject, onMounted } from 'vue'
-import { Form } from 'ant-design-vue'
-import type { NodeItem, FormDataModel } from '@epic-designer/core/types/epic-designer'
+import type { ComponentSchema, FormDataModel } from '@epic-designer/types';
+import type { PageManager } from '@epic-designer/utils';
+
+import { computed, inject, provide, reactive, ref } from 'vue';
+
+import { Form } from 'ant-design-vue';
 
 interface FormInstance extends InstanceType<typeof Form> {
-  getData?: () => FormDataModel
-  setData?: (FormDataModel) => void
-  validateFields: () => void
-  validate: () => void
+  getData?: () => FormDataModel;
+  scrollToField: (name: string) => void;
+  setData?: (data: FormDataModel) => void;
+  validate: () => Promise<unknown>;
+  validateFields: () => Promise<unknown>;
 }
-const props = defineProps({
-  record: {
-    type: Object as PropType<NodeItem>,
-    require: true,
-    default: () => ({})
-  }
-})
 
-const form = ref<FormInstance | null>(null)
-const forms = inject('forms', {}) as Ref<{ [name: string]: any }>
-const formData = reactive<FormDataModel>({})
-provide('formData', formData)
+const props = withDefaults(
+  defineProps<{
+    componentSchema: ComponentSchema;
+    scrollToFirstError?: boolean;
+  }>(),
+  {
+    componentSchema: () => ({ type: '' }),
+    scrollToFirstError: false,
+  },
+);
 
+const pageManager = inject<PageManager>('pageManager', {} as PageManager);
+const form = ref<FormInstance | null>(null);
+const forms = inject<{ [name: string]: any }>('forms', {});
+const formData = reactive<FormDataModel>({});
+pageManager.addFormData(formData, props.componentSchema?.componentProps?.name);
+provide('formData', formData);
 
 /**
  * 获取表单数据
- * @param formName 表单name
  */
 function getData(): FormDataModel {
-  return formData
+  return formData;
 }
 
 /**
  * 校验表单数据
- * @param data
  */
-function validate() {
-  return form.value?.validateFields()
+async function validate() {
+  try {
+    return await form.value?.validateFields();
+  } catch (error) {
+    if (props.scrollToFirstError) {
+      // 滚动到第一个错误字段
+      form.value?.scrollToField(error.errorFields[0].name.toString());
+    }
+    throw error;
+  }
 }
 
 /**
@@ -53,49 +59,85 @@ function validate() {
  * @param data
  */
 function setData(data: FormDataModel) {
-  Object.assign(formData, data)
+  Object.assign(formData, data);
 }
 
 // form组件需要特殊处理
-onMounted(async () => {
-  if (props.record?.type === 'form' && forms.value && form.value) {
-    const name = props.record.name ?? 'default' as string
-    form.value.validate = validate
-    forms.value[name] = form.value
-    form.value.getData = getData
-    form.value.setData = setData
-    return false
+const mountedForm = (event) => {
+  form.value = event.component.exposed;
+
+  if (props.componentSchema?.type === 'form' && forms.value && form.value) {
+    const name =
+      props.componentSchema?.componentProps?.name ??
+      props.componentSchema?.name ??
+      ('default' as string);
+
+    form.value.validate = validate;
+    forms.value[name] = form.value;
+    form.value.getData = getData;
+    form.value.setData = setData;
+    return false;
   }
-})
+};
 
 const componentProps = computed(() => {
-  const recordProps = props.record!.componentProps
-  let labelCol = recordProps.labelCol
-  let wrapperCol = recordProps.wrapperCol
-  if (recordProps.labelLayout === 'fixed') {
-    labelCol = { flex: `${recordProps.labelWidth}px` }
-    wrapperCol = { flex: 1 }
+  const recordProps = props.componentSchema!.componentProps;
+  let labelCol = recordProps.labelCol;
+  let wrapperCol = recordProps.wrapperCol;
+  if (recordProps.layout === 'vertical') {
+    labelCol = wrapperCol = { span: 24 };
+  } else if (
+    recordProps.layout === 'inline' &&
+    recordProps.labelLayout === 'fixed'
+  ) {
+    // 处理内联固定label宽度导致换行问题
+    labelCol = {};
+    wrapperCol = { flex: 1 };
+  } else if (recordProps.labelLayout === 'fixed') {
+    // 兼容 旧版本 labelWidth 是 number 的情况
+    labelCol = {
+      flex: `${typeof recordProps.labelWidth === 'number' ? `${recordProps.labelWidth}px` : recordProps.labelWidth}`,
+    };
+    wrapperCol = { flex: 1 };
   }
+
   return {
     ...recordProps,
     labelCol,
-    wrapperCol
+    wrapperCol,
+  };
+});
 
-  }
-})
-
-function onFinish(e: any) {
-  console.log(e)
-}
+function onFinish() {}
 
 const children = computed(() => {
-  return props.record!.children ?? []
-})
+  return props.componentSchema!.children ?? [];
+});
 
 defineExpose({
   form,
   getData,
   setData,
-  validate
-})
+  validate,
+});
 </script>
+<template>
+  <div class="form-main" style="height: 100%">
+    <component
+      :is="Form"
+      :model="formData"
+      v-bind="componentProps"
+      style="height: 100%"
+      @finish="onFinish"
+      @vue:mounted="mountedForm"
+    >
+      <slot name="edit-node">
+        <slot
+          v-for="item in children"
+          name="node"
+          :component-schema="item"
+        ></slot>
+      </slot>
+    </component>
+  </div>
+</template>

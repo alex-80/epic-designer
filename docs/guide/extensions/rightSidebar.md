@@ -1,12 +1,12 @@
-## 右侧边栏扩展
+# 右侧边栏扩展
 
 :::tip 右侧边栏扩展
 `pluginManager` 提供了registerRightSidebar方法扩展右侧边栏功能模块
 :::
 
-参考demo仓库： [https://gitee.com/kcz66/k-designer-demo](https://gitee.com/kcz66/k-designer-demo)
+参考demo仓库： [https://gitee.com/kcz66/epic-designer-demo](https://gitee.com/kcz66/epic-designer-demo)
 
-## 右侧边栏扩展
+## 右侧边栏扩展示例
 
 在src目录下新建designer-extensions 文件目录，下面是一个简单扩展示例
 
@@ -22,10 +22,10 @@
 
 ### 新建designer-extensions/index.ts(扩展函数)
 ```ts
-import { type PluginManager } from "epic-designer";
+import { pluginManager } from "epic-designer";
 
 // 安装扩展
-export function setupDesignerExtensions(pluginManager: PluginManager): void {
+export function setupDesignerExtensions(): void {
   // 添加右侧模块
   pluginManager.registerRightSidebar({
     id: "test_view",
@@ -38,9 +38,9 @@ export function setupDesignerExtensions(pluginManager: PluginManager): void {
 
 ```ts
 import { setupDesignerExtensions } from "./designer-extensions";
-import { pluginManager } from "epic-designer";
+
 // 执行扩展函数
-setupDesignerExtensions(pluginManager);
+setupDesignerExtensions();
 ```
 
 

@@ -1,89 +1,109 @@
-import { type ComponentConfigModel } from '@epic-designer/utils'
+import type { ComponentConfigModel } from '@epic-designer/utils';
+
 export default {
-  component: () => import('ant-design-vue/lib/input'),
-  defaultSchema: {
-    label: '颜色选择器',
-    type: 'color-picker',
-    field: 'color-picker',
-    icon: 'epic-icon-yanse',
-    input: true,
-    componentProps: {
-      type: 'color',
-      style: {
-        width: '80px'
-      }
-    }
-  },
+  bindModel: 'value',
+  component: async () => (await import('ant-design-vue')).Input,
   config: {
+    action: [],
     attribute: [
       {
+        field: 'field',
         label: '字段名',
         type: 'input',
-        field: 'field'
       },
       {
+        field: 'label',
         label: '标题',
         type: 'input',
-        field: 'label'
       },
       {
+        field: 'componentProps.defaultValue',
         label: '默认值',
         type: 'input',
-        field: 'componentProps.defaultValue'
       },
       {
-        label: "尺寸",
-        type: "select",
         componentProps: {
-          placeholder: "请选择",
           allowClear: true,
           options: [
             {
-              label: "large",
-              value: "large",
+              label: '大号',
+              value: 'large',
             },
             {
-              label: "middle",
-              value: "middle",
+              label: '中等',
+              value: 'middle',
             },
             {
-              label: "small",
-              value: "small",
+              label: '小型',
+              value: 'small',
             },
           ],
+          placeholder: '请选择',
         },
-        field: "componentProps.size",
+        field: 'componentProps.size',
+        label: '尺寸',
+        type: 'select',
       },
       {
+        componentProps: {
+          checkedValue: false,
+          unCheckedValue: true,
+        },
+        field: 'componentProps.bordered',
+        label: '无边框',
+        type: 'switch',
+      },
+      {
+        field: 'componentProps.allowClear',
         label: '可清空',
         type: 'switch',
-        field: 'componentProps.allowClear'
       },
       {
+        field: 'componentProps.disabled',
         label: '禁用',
         type: 'switch',
-        field: 'componentProps.disabled'
       },
       {
+        field: 'componentProps.hidden',
         label: '隐藏',
         type: 'switch',
-        field: 'componentProps.hidden'
       },
       {
-        label: '表单校验',
-        type: 'ERuleEditor',
-        layout: 'vertical',
+        description: '校验规则需要配合表单使用',
         field: 'rules',
-        describe: '校验规则需要配合表单使用'
-      }
+        label: '表单校验',
+        layout: 'vertical',
+        type: 'ERuleEditor',
+      },
     ],
     event: [
       {
+        description: '值修改时',
         type: 'change',
-        describe: '值变化时'
-      }
+      },
+      {
+        description: '获取焦点时',
+        type: 'focus',
+      },
+      {
+        description: '失去焦点时',
+        type: 'blur',
+      },
     ],
-    action: []
   },
-  bindModel: 'value'
-} as ComponentConfigModel
+  defaultSchema: {
+    componentProps: {
+      style: {
+        width: '80px',
+      },
+      type: 'color',
+    },
+    field: 'color-picker',
+    input: true,
+    label: '颜色选择器',
+    type: 'color-picker',
+  },
+  groupName: '表单',
+  icon: 'icon--epic--palette-outline',
+  sort: 950,
+} as ComponentConfigModel;

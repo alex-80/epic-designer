@@ -1,178 +1,183 @@
-import { type ComponentConfigModel } from '@epic-designer/utils'
+import type { ComponentConfigModel } from '@epic-designer/utils';
+
 export default {
-  component: async () => (await import('naive-ui/lib/color-picker')).NColorPicker,
-  defaultSchema: {
-    label: '颜色选择器',
-    type: 'color-picker',
-    field: 'color-picker',
-    icon: 'epic-icon-yanse',
-    input: true,
-    componentProps: {
-      type: 'color',
-      modes: ['hex'],
-      showAlpha: true,
-      size: 'medium',
-      placement: 'bottom-start'
-    }
-  },
+  bindModel: 'value',
+  component: async () =>
+    (await import('naive-ui/lib/color-picker')).NColorPicker,
   config: {
+    action: [],
     attribute: [
       {
+        field: 'field',
         label: '字段名',
         type: 'input',
-        field: 'field'
       },
       {
-        label: '文字',
+        field: 'label',
+        label: '标题',
         type: 'input',
-        field: 'label'
       },
       {
+        field: 'componentProps.defaultValue',
         label: '默认值',
         type: 'color-picker',
-        field: 'componentProps.defaultValue'
       },
       {
-        label: '尺寸',
-        type: 'select',
-        defaultValue: 'default',
         componentProps: {
-          "placeholder": "请选择",
+          clearable: true,
           options: [
             {
-              label: 'large',
-              value: 'large'
+              label: '大号',
+              value: 'large',
             },
             {
-              label: 'medium',
-              value: 'medium'
+              label: '中等',
+              value: 'medium',
             },
             {
-              label: 'small',
-              value: 'small'
-            }
-          ]
+              label: '小型',
+              value: 'small',
+            },
+          ],
+          placeholder: '请选择',
         },
-        field: 'componentProps.size'
+        defaultValue: 'default',
+        field: 'componentProps.size',
+        label: '尺寸',
+        type: 'select',
       },
       {
-        label: '菜单弹出的位置',
-        type: 'select',
-        field: 'componentProps.placement',
         componentProps: {
+          clearable: true,
           options: [
             {
               label: 'top-start',
-              value: 'top-start'
+              value: 'top-start',
             },
             {
               label: 'top',
-              value: 'top'
+              value: 'top',
             },
             {
               label: 'top-end',
-              value: 'top-end'
+              value: 'top-end',
             },
             {
               label: 'right-start',
-              value: 'right-start'
+              value: 'right-start',
             },
             {
               label: 'right',
-              value: 'right'
+              value: 'right',
             },
             {
               label: 'right-end',
-              value: 'right-end'
+              value: 'right-end',
             },
             {
               label: 'bottom-start',
-              value: 'bottom-start'
+              value: 'bottom-start',
             },
             {
               label: 'bottom',
-              value: 'bottom'
+              value: 'bottom',
             },
             {
               label: 'bottom-end',
-              value: 'bottom-end'
+              value: 'bottom-end',
             },
             {
               label: 'left-start',
-              value: 'left-start'
+              value: 'left-start',
             },
             {
               label: 'left',
-              value: 'left'
+              value: 'left',
             },
             {
               label: 'left-end',
-              value: 'left-end'
-            }
-          ]
-        }
+              value: 'left-end',
+            },
+          ],
+          placeholder: '请选择',
+        },
+        field: 'componentProps.placement',
+        label: '菜单弹出的位置',
+        type: 'select',
       },
       {
-        label: '格式',
-        type: 'checkbox',
-        field: 'componentProps.modes',
         componentProps: {
+          max: 1,
           options: [
             {
               label: 'rgb',
-              value: 'rgb'
+              value: 'rgb',
             },
             {
               label: 'hex',
-              value: 'hex'
+              value: 'hex',
             },
             {
               label: 'hsl',
-              value: 'hsl'
+              value: 'hsl',
             },
             {
               label: 'hsv',
-              value: 'hsv'
-            }
+              value: 'hsv',
+            },
           ],
-          max: 1,
         },
+        field: 'componentProps.modes',
+        label: '格式',
+        type: 'checkbox',
       },
       {
+        field: 'componentProps.showPreview',
         label: '展示预览块',
         type: 'switch',
-        field: 'componentProps.showPreview'
       },
       {
+        field: 'componentProps.showAlpha',
         label: '可调节透明度',
         type: 'switch',
-        field: 'componentProps.showAlpha'
       },
       {
+        field: 'componentProps.disabled',
         label: '禁用',
         type: 'switch',
-        field: 'componentProps.disabled'
       },
       {
+        field: 'componentProps.hidden',
         label: '隐藏',
         type: 'switch',
-        field: 'componentProps.hidden'
       },
       {
-        label: '表单校验',
-        type: 'ERuleEditor',
-        layout: 'vertical',
+        description: '校验规则需要配合表单使用',
         field: 'rules',
-        describe: '校验规则需要配合表单使用'
-      }
+        label: '表单校验',
+        layout: 'vertical',
+        type: 'ERuleEditor',
+      },
     ],
     event: [
       {
+        description: '值变化时',
         type: 'change',
-        describe: '值变化时'
-      }
+      },
     ],
-    action: []
   },
-  bindModel: 'value'
-} as ComponentConfigModel
+  defaultSchema: {
+    componentProps: {
+      modes: ['hex'],
+      showAlpha: true,
+      type: 'color',
+    },
+    field: 'color-picker',
+    input: true,
+    label: '颜色选择器',
+    type: 'color-picker',
+  },
+  groupName: '表单',
+  icon: 'icon--epic--palette-outline',
+  sort: 950,
+} as ComponentConfigModel;

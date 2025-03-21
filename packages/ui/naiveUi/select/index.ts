@@ -1,193 +1,198 @@
-import { type ComponentConfigModel } from '@epic-designer/utils'
+import type { ComponentConfigModel } from '@epic-designer/utils';
+
 export default {
+  bindModel: 'value',
   component: async () => (await import('naive-ui/lib/select')).NSelect,
-  defaultSchema: {
-    label: '选择框',
-    type: 'select',
-    icon: 'epic-icon-xiala',
-    field: 'select',
-    input: true,
-    componentProps: {
-      options: [
-        {
-          label: '选项1',
-          value: '选项1'
-        },
-        {
-          label: '选项2',
-          value: '选项2'
-        }
-      ],
-      placeholder: '请选择',
-      size: 'medium',
-      placement: 'bottom-start'
-    }
-  },
   config: {
     attribute: [
       {
+        field: 'field',
         label: '字段名',
         type: 'input',
-        field: 'field'
       },
       {
-        label: '文字',
+        field: 'label',
+        label: '标题',
         type: 'input',
-        field: 'label'
       },
       {
+        field: 'componentProps.defaultValue',
         label: '默认值',
         type: 'select',
-        field: 'componentProps.defaultValue'
       },
       {
+        field: 'componentProps.placeholder',
         label: '占位内容',
         type: 'input',
-        field: 'componentProps.placeholder'
       },
       {
-        label: '尺寸',
-        type: 'select',
-        field: 'componentProps.size',
         componentProps: {
+          clearable: true,
           options: [
             {
-              label: 'tiny',
-              value: 'tiny'
+              label: '极小',
+              value: 'tiny',
             },
             {
-              label: 'small',
-              value: 'small'
+              label: '小型',
+              value: 'small',
             },
             {
-              label: 'medium',
-              value: 'medium'
+              label: '中等',
+              value: 'medium',
             },
             {
-              label: 'large',
-              value: 'large'
-            }
-          ]
-        }
+              label: '大号',
+              value: 'large',
+            },
+          ],
+          placeholder: '请选择',
+        },
+        field: 'componentProps.size',
+        label: '尺寸',
+        type: 'select',
       },
       {
-        label: '菜单弹出的位置',
-        type: 'select',
-        field: 'componentProps.placement',
         componentProps: {
+          clearable: true,
           options: [
             {
               label: 'top-start',
-              value: 'top-start'
+              value: 'top-start',
             },
             {
               label: 'top',
-              value: 'top'
+              value: 'top',
             },
             {
               label: 'top-end',
-              value: 'top-end'
+              value: 'top-end',
             },
             {
               label: 'right-start',
-              value: 'right-start'
+              value: 'right-start',
             },
             {
               label: 'right',
-              value: 'right'
+              value: 'right',
             },
             {
               label: 'right-end',
-              value: 'right-end'
+              value: 'right-end',
             },
             {
               label: 'bottom-start',
-              value: 'bottom-start'
+              value: 'bottom-start',
             },
             {
               label: 'bottom',
-              value: 'bottom'
+              value: 'bottom',
             },
             {
               label: 'bottom-end',
-              value: 'bottom-end'
+              value: 'bottom-end',
             },
             {
               label: 'left-start',
-              value: 'left-start'
+              value: 'left-start',
             },
             {
               label: 'left',
-              value: 'left'
+              value: 'left',
             },
             {
               label: 'left-end',
-              value: 'left-end'
-            }
-          ]
-        }
+              value: 'left-end',
+            },
+          ],
+          placeholder: '请选择',
+        },
+        field: 'componentProps.placement',
+        label: '菜单弹出的位置',
+        type: 'select',
       },
       {
+        field: 'componentProps.filterable',
         label: '可过滤',
         type: 'switch',
-        field: 'componentProps.filterable'
       },
       {
-        label: '允许创建新选项',
-        type: 'switch',
         field: 'componentProps.tag',
-        show: ({values})=> values.componentProps.filterable
+        label: '允许创建新选项',
+        show: ({ values }) => values.componentProps.filterable,
+        type: 'switch',
       },
       {
+        field: 'componentProps.multiple',
         label: '多选',
         type: 'switch',
-        field: 'componentProps.multiple'
       },
       {
-        label: '最大tag数',
-        type: 'number',
-        field: 'componentProps.maxTagCount',
-        show: ({values})=> values.componentProps.multiple,
         componentProps: {
-          placeholder: '请输入'
-        }
+          placeholder: '请输入',
+        },
+        field: 'componentProps.maxTagCount',
+        label: '最大tag数',
+        show: ({ values }) => values.componentProps.multiple,
+        type: 'number',
       },
       {
+        field: 'componentProps.clearable',
         label: '可清空',
         type: 'switch',
-        field: 'componentProps.clearable'
       },
       {
+        field: 'componentProps.disabled',
         label: '禁用',
         type: 'switch',
-        field: 'componentProps.disabled'
       },
       {
+        field: 'componentProps.hidden',
         label: '隐藏',
         type: 'switch',
-        field: 'componentProps.hidden'
       },
       {
-        label: '表单校验',
-        type: 'ERuleEditor',
-        layout: 'vertical',
+        description: '校验规则需要配合表单使用',
         field: 'rules',
-        describe: '校验规则需要配合表单使用'
+        label: '表单校验',
+        layout: 'vertical',
+        type: 'ERuleEditor',
       },
       {
-        label: "选项管理",
-        type: "EOptionsEditor",
-        layout: "vertical",
-        field: "componentProps.options",
-        describe: "配置选项",
+        description: '配置选项',
+        field: 'componentProps.options',
+        label: '选项管理',
+        layout: 'vertical',
+        type: 'EOptionsEditor',
       },
     ],
     event: [
       {
+        description: '值修改',
         type: 'change',
-        describe: '值修改'
-      }
-    ]
+      },
+    ],
   },
-  bindModel: 'value'
-} as ComponentConfigModel
+  defaultSchema: {
+    componentProps: {
+      options: [
+        {
+          label: '选项1',
+          value: '选项1',
+        },
+        {
+          label: '选项2',
+          value: '选项2',
+        },
+      ],
+      placeholder: '请选择',
+    },
+    field: 'select',
+    input: true,
+    label: '选择框',
+    type: 'select',
+  },
+  groupName: '表单',
+  icon: 'icon--epic--select',
+  sort: 900,
+} as ComponentConfigModel;

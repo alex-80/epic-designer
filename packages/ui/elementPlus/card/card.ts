@@ -1,35 +1,39 @@
-import { defineComponent, h, renderSlot, type PropType } from "vue";
-import { ElCard } from "element-plus";
-import { type NodeItem } from "@epic-designer/core/types/epic-designer";
+import type { ComponentSchema } from '@epic-designer/types';
+
+import type { PropType } from 'vue';
+
+import { defineComponent, h, renderSlot } from 'vue';
+
+import { ElCard } from 'element-plus';
+
 export default defineComponent({
   props: {
-    record: {
-      type: Object as PropType<NodeItem>,
-      required: true,
+    componentSchema: {
       default: () => ({}),
+      required: true,
+      type: Object as PropType<ComponentSchema>,
     },
   },
-  setup(props, { attrs, slots }) {
+  setup(props, { slots }) {
     return () => {
-      const record = {
-        ...props.record,
-        header: props.record?.label ?? "",
-      } as NodeItem;
-      const children = record.children ?? [];
-      delete record.children;
+      const componentSchema = {
+        ...props.componentSchema,
+        header: props.componentSchema?.label ?? '',
+      } as ComponentSchema;
+      const children = componentSchema.children ?? [];
+      delete componentSchema.children;
 
       let vNodeClildren: any = null;
-      if (children.length) {
-        vNodeClildren = () =>
-          children.map((node: NodeItem) =>
-            renderSlot(slots, "node", { record: node })
-          );
-      } else {
-        vNodeClildren = () => [renderSlot(slots, "default")];
-      }
-      return h(ElCard, record, {
-        default: () => renderSlot(slots, "edit-node", {}, vNodeClildren),
-        header: () => renderSlot(slots, "header"),
+      vNodeClildren =
+        children.length > 0
+          ? () =>
+              children.map((node: ComponentSchema) =>
+                renderSlot(slots, 'node', { componentSchema: node }),
+              )
+          : () => [renderSlot(slots, 'default')];
+      return h(ElCard, componentSchema, {
+        default: () => renderSlot(slots, 'edit-node', {}, vNodeClildren),
+        header: () => renderSlot(slots, 'header'),
       });
     };
   },

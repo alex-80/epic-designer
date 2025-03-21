@@ -1,165 +1,171 @@
-import { type ComponentConfigModel } from "@epic-designer/utils";
+import type { ComponentConfigModel } from '@epic-designer/utils';
+
 export default {
-  component: () => import("ant-design-vue/lib/input"),
-  defaultSchema: {
-    label: "输入框",
-    type: "input",
-    field: "input",
-    icon: "epic-icon-write",
-    input: true,
-    componentProps: {
-      bordered: true,
-      placeholder: "请输入",
-    },
-  },
+  bindModel: 'value',
+  component: async () => (await import('ant-design-vue')).Input,
   config: {
+    action: [
+      {
+        description: '使输入框获取焦点',
+        type: 'focus',
+      },
+      {
+        description: '使输入框失去焦点',
+        type: 'blur',
+      },
+      {
+        description: '选中输入框中的文字',
+        type: 'select',
+      },
+    ],
     attribute: [
       {
-        label: "字段名",
-        type: "input",
-        field: "field",
+        field: 'field',
+        label: '字段名',
+        type: 'input',
       },
       {
-        label: "标题",
-        type: "input",
-        field: "label",
+        field: 'label',
+        label: '标题',
+        type: 'input',
       },
       {
-        label: "占位内容",
-        type: "input",
-        field: "componentProps.placeholder",
+        field: 'componentProps.placeholder',
+        label: '占位内容',
+        type: 'input',
       },
       {
-        label: "默认值",
-        type: "input",
-        field: "componentProps.defaultValue",
         componentProps: {
-          placeholder: "请输入",
+          placeholder: '请输入',
         },
+        field: 'componentProps.defaultValue',
+        label: '默认值',
+        type: 'input',
       },
       {
-        label: "输入类型",
-        type: "select",
         componentProps: {
-          placeholder: "请选择",
           allowClear: true,
           options: [
             {
-              label: "text",
-              value: "text",
+              label: 'text',
+              value: 'text',
             },
             {
-              label: "number",
-              value: "number",
+              label: 'number',
+              value: 'number',
             },
             {
-              label: "password",
-              value: "password",
+              label: 'password',
+              value: 'password',
             },
           ],
+          placeholder: '请选择',
         },
-        field: "componentProps.type",
+        field: 'componentProps.type',
+        label: '输入类型',
+        type: 'select',
       },
       {
-        label: "尺寸",
-        type: "select",
         componentProps: {
-          placeholder: "请选择",
           allowClear: true,
           options: [
             {
-              label: "large",
-              value: "large",
+              label: '大号',
+              value: 'large',
             },
             {
-              label: "middle",
-              value: "middle",
+              label: '中等',
+              value: 'middle',
             },
             {
-              label: "small",
-              value: "small",
+              label: '小型',
+              value: 'small',
             },
           ],
+          placeholder: '请选择',
         },
-        field: "componentProps.size",
+        field: 'componentProps.size',
+        label: '尺寸',
+        type: 'select',
       },
       {
-        label: "可清空",
-        type: "switch",
-        field: "componentProps.allowClear",
-      },
-      {
-        label: "有边框",
-        type: "switch",
-        field: "componentProps.bordered",
-      },
-      {
-        label: "最大输入长度",
-        type: "number",
-        field: "componentProps.maxLength",
         componentProps: {
-          placeholder: "请输入",
+          checkedValue: false,
+          unCheckedValue: true,
         },
+        field: 'componentProps.bordered',
+        label: '无边框',
+        type: 'switch',
       },
       {
-        label: "统计字数",
-        type: "switch",
-        field: "componentProps.showCount",
+        componentProps: {
+          placeholder: '请输入',
+        },
+        field: 'componentProps.maxlength',
+        label: '最大输入长度',
+        type: 'number',
       },
       {
-        label: "禁用",
-        type: "switch",
-        field: "componentProps.disabled",
+        field: 'componentProps.showCount',
+        label: '展示字数',
+        type: 'switch',
       },
       {
-        label: "隐藏",
-        type: "switch",
-        field: "componentProps.hidden",
+        field: 'componentProps.allowClear',
+        label: '可清空',
+        type: 'switch',
       },
       {
-        label: "表单校验",
-        type: "ERuleEditor",
-        layout: "vertical",
-        field: "rules",
-        describe: "校验规则需要配合表单使用",
+        field: 'componentProps.disabled',
+        label: '禁用',
+        type: 'switch',
+      },
+      {
+        field: 'componentProps.hidden',
+        label: '隐藏',
+        type: 'switch',
+      },
+      {
+        description: '校验规则需要配合表单使用',
+        field: 'rules',
+        label: '表单校验',
+        layout: 'vertical',
+        type: 'ERuleEditor',
       },
     ],
     event: [
       {
-        type: "input",
-        describe: "输入值",
+        description: '输入值时',
+        type: 'input',
       },
       {
-        type: "change",
-        describe: "值修改",
+        description: '值修改时',
+        type: 'change',
       },
       {
-        type: "pressEnter",
-        describe: "按下回车的回调",
+        description: '按下回车时',
+        type: 'pressEnter',
       },
       {
-        type: "focus",
-        describe: "获取焦点",
+        description: '获取焦点时',
+        type: 'focus',
       },
       {
-        type: "blur",
-        describe: "失去焦点",
-      },
-    ],
-    action: [
-      {
-        type: "focus",
-        describe: "使 input 获取焦点",
-      },
-      {
-        type: "blur",
-        describe: "使 input 失去焦点",
-      },
-      {
-        type: "select",
-        describe: "选中 input 中的文字",
+        description: '失去焦点时',
+        type: 'blur',
       },
     ],
   },
-  bindModel: "value",
+  defaultSchema: {
+    componentProps: {
+      placeholder: '请输入',
+    },
+    field: 'input',
+    input: true,
+    label: '输入框',
+    type: 'input',
+  },
+  groupName: '表单',
+  icon: 'icon--epic--border-color-outline-rounded',
+  sort: 700,
 } as ComponentConfigModel;

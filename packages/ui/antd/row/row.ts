@@ -1,27 +1,36 @@
-import { defineComponent, h, renderSlot, type PropType } from "vue";
-import Row from "ant-design-vue/lib/row";
-import { type NodeItem } from "@epic-designer/core/types/epic-designer";
+import type { ComponentSchema } from '@epic-designer/types';
+
+import type { PropType } from 'vue';
+
+import { defineComponent, h, renderSlot } from 'vue';
+
+import { Row } from 'ant-design-vue';
+
 export default defineComponent({
   props: {
-    record: {
-      type: Object as PropType<NodeItem>,
-      require: true,
+    componentSchema: {
       default: () => ({}),
+      require: true,
+      type: Object as PropType<ComponentSchema>,
     },
   },
-  setup(props, { attrs, slots }) {
+  setup(props, { slots }) {
     return () => {
-      const record = {
-        ...props.record,
-        title: props.record?.label ?? "",
+      const componentSchema = {
+        ...props.componentSchema,
+        title: props.componentSchema?.label ?? '',
       } as any;
-      const children = record.children;
-      delete record.children;
+      const children = componentSchema.children;
+      delete componentSchema.children;
 
-      return h(Row, record, {
+      return h(Row, componentSchema, {
         default: () =>
-          renderSlot(slots, "edit-node", {}, () =>
-            children.map((record: any) => renderSlot(slots, "node", { record }))
+          renderSlot(slots, 'edit-node', {}, () =>
+            children.map((subcomponentSchema: ComponentSchema) =>
+              renderSlot(slots, 'node', {
+                componentSchema: subcomponentSchema,
+              }),
+            ),
           ),
       });
     };

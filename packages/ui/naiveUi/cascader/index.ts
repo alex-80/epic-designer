@@ -1,215 +1,223 @@
-import { type ComponentConfigModel } from '@epic-designer/utils'
+import type { ComponentConfigModel } from '@epic-designer/utils';
+
 export default {
+  bindModel: 'value',
   component: async () => (await import('naive-ui/lib/cascader')).NCascader,
-  defaultSchema: {
-    label: '级联选择器',
-    type: 'cascader',
-    icon: "epic-icon-guanlian",
-    field: 'cascader',
-    input: true,
-    componentProps: {
-      options: [
-        {
-          label: '选项1',
-          value: '选项1'
-        },
-        {
-          label: '选项2',
-          value: '选项2'
-        }
-      ],
-      placeholder: '请选择',
-      cascade: false,
-      showPath: true,
-      size: 'medium',
-      placement: 'bottom-start'
-    }
-  },
   config: {
+    action: [
+      {
+        description: '获取当前选中节点',
+        type: 'getSelectedNodes',
+      },
+    ],
     attribute: [
       {
+        field: 'field',
         label: '字段名',
         type: 'input',
-        field: 'field'
       },
       {
-        label: '文字',
+        field: 'label',
+        label: '标题',
         type: 'input',
-        field: 'label'
       },
       {
+        field: 'componentProps.defaultValue',
         label: '默认值',
         type: 'cascader',
-        field: 'componentProps.defaultValue'
       },
       {
+        field: 'componentProps.placeholder',
         label: '占位内容',
         type: 'input',
-        field: 'componentProps.placeholder'
       },
       {
-        label: '尺寸',
-        type: 'select',
-        field: 'componentProps.size',
         componentProps: {
+          clearable: true,
           options: [
             {
-              label: 'tiny',
-              value: 'tiny'
+              label: '极小',
+              value: 'tiny',
             },
             {
-              label: 'small',
-              value: 'small'
+              label: '小型',
+              value: 'small',
             },
             {
-              label: 'medium',
-              value: 'medium'
+              label: '中等',
+              value: 'medium',
             },
             {
-              label: 'large',
-              value: 'large'
-            }
-          ]
-        }
+              label: '大号',
+              value: 'large',
+            },
+          ],
+          placeholder: '请选择',
+        },
+        field: 'componentProps.size',
+        label: '尺寸',
+        type: 'select',
       },
       {
+        field: 'componentProps.multiple',
         label: '多选',
         type: 'switch',
-        field: 'componentProps.multiple'
       },
       {
-        label: '多选时关联选项',
-        type: 'switch',
         field: 'componentProps.cascade',
-        show: ({values})=> values.componentProps.multiple
+        label: '多选时关联选项',
+        show: ({ values }) => values.componentProps.multiple,
+        type: 'switch',
       },
       {
+        field: 'componentProps.separator',
         label: '分割符',
         type: 'switch',
-        field: 'componentProps.separator',
       },
       {
+        field: 'componentProps.showPath',
         label: '显示选项路径',
         type: 'switch',
-        field: 'componentProps.showPath',
       },
       {
+        field: 'componentProps.filterable',
         label: '可搜索',
         type: 'switch',
-        field: 'componentProps.filterable'
       },
       {
-        label: '菜单弹出的位置',
-        type: 'select',
-        field: 'componentProps.placement',
         componentProps: {
+          clearable: true,
           options: [
             {
               label: 'top-start',
-              value: 'top-start'
+              value: 'top-start',
             },
             {
               label: 'top',
-              value: 'top'
+              value: 'top',
             },
             {
               label: 'top-end',
-              value: 'top-end'
+              value: 'top-end',
             },
             {
               label: 'right-start',
-              value: 'right-start'
+              value: 'right-start',
             },
             {
               label: 'right',
-              value: 'right'
+              value: 'right',
             },
             {
               label: 'right-end',
-              value: 'right-end'
+              value: 'right-end',
             },
             {
               label: 'bottom-start',
-              value: 'bottom-start'
+              value: 'bottom-start',
             },
             {
               label: 'bottom',
-              value: 'bottom'
+              value: 'bottom',
             },
             {
               label: 'bottom-end',
-              value: 'bottom-end'
+              value: 'bottom-end',
             },
             {
               label: 'left-start',
-              value: 'left-start'
+              value: 'left-start',
             },
             {
               label: 'left',
-              value: 'left'
+              value: 'left',
             },
             {
               label: 'left-end',
-              value: 'left-end'
-            }
-          ]
-        }
+              value: 'left-end',
+            },
+          ],
+          placeholder: '请选择',
+        },
+        field: 'componentProps.placement',
+        label: '菜单弹出的位置',
+        type: 'select',
       },
       {
-        label: '最大tag显示数',
-        type: 'number',
         field: 'componentProps.maxTagCount',
-        show: ({values})=>values.componentProps.multiple
+        label: '最大tag显示数',
+        show: ({ values }) => values.componentProps.multiple,
+        type: 'number',
       },
       {
+        field: 'componentProps.clearable',
         label: '可清空',
         type: 'switch',
-        field: 'componentProps.clearable'
       },
       {
+        field: 'componentProps.disabled',
         label: '禁用',
         type: 'switch',
-        field: 'componentProps.disabled'
       },
       {
+        field: 'componentProps.hidden',
         label: '隐藏',
         type: 'switch',
-        field: 'componentProps.hidden'
       },
       {
-        label: "选项管理",
-        type: "EOptionsEditor",
-        layout: "vertical",
-        field: "componentProps.options",
         componentProps: {
           tree: true,
         },
-        describe: "配置选项",
+        description: '配置选项',
+        field: 'componentProps.options',
+        label: '选项管理',
+        layout: 'vertical',
+        type: 'EOptionsEditor',
       },
       {
-        label: '表单校验',
-        type: 'ERuleEditor',
-        layout: 'vertical',
+        componentProps: {
+          ruleType: 'array',
+        },
+        description: '校验规则需要配合表单使用',
         field: 'rules',
-        describe: '校验规则需要配合表单使用'
+        label: '表单校验',
+        layout: 'vertical',
+        type: 'ERuleEditor',
       },
     ],
     event: [
       {
+        description: '选中节点变化时',
         type: 'change',
-        describe: '选中节点变化时'
       },
       {
+        description: '面板的关闭事件',
         type: 'close',
-        describe: '面板的关闭事件'
-      }
+      },
     ],
-    action: [
-      {
-        type: 'getCheckedNodes',
-        describe: '获取当前选中节点'
-      }
-    ]
   },
-  bindModel: 'value'
-} as ComponentConfigModel
+  defaultSchema: {
+    componentProps: {
+      cascade: false,
+      options: [
+        {
+          label: '选项1',
+          value: '选项1',
+        },
+        {
+          label: '选项2',
+          value: '选项2',
+        },
+      ],
+      placeholder: '请选择',
+      showPath: true,
+    },
+    field: 'cascader',
+    input: true,
+    label: '级联选择器',
+    type: 'cascader',
+  },
+  groupName: '表单',
+  icon: 'icon--epic--full-coverage-outline',
+  sort: 880,
+} as ComponentConfigModel;

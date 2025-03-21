@@ -1,65 +1,96 @@
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
-import path from "path";
-import dts from "vite-plugin-dts";
-import UnoCSS from "unocss/vite";
-import monacoEditorPlugin from "vite-plugin-monaco-editor";
+import type { PluginOption } from 'vite';
+
+import path, { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+import vue from '@vitejs/plugin-vue';
+import rollupCopy from 'rollup-plugin-copy';
+import nodeExternals from 'rollup-plugin-node-externals';
+import UnoCSS from 'unocss/vite';
+import { defineConfig } from 'vite';
+import dts from 'vite-plugin-dts';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 export default defineConfig({
-  plugins: [
-    vue(),
-    UnoCSS(),
-    dts({
-      entryRoot: "../",
-      outDir: "dist",
-    }),
-    (monacoEditorPlugin as any).default({})
-  ],
-  resolve: {
-    alias: {
-      "@epic-designer/core": path.resolve(__dirname, "../core"),
-      "@epic-designer/ui": path.resolve(__dirname, "../ui"),
-      "@epic-designer/utils": path.resolve(__dirname, "../utils"),
-    },
-    dedupe: ["vue"],
-  },
-  // 单元测试配置
-  // test: {
-  //   globals: true,
-  //   environment: 'jsdom',
-  //   transformMode: {
-  //     web: [/.[tj]sx$/]
-  //   }
-  // },
-  // rollup打包配置
   build: {
-    outDir: "dist", // 输出文件名称
+    commonjsOptions: {
+      esmExternals: true,
+    },
     lib: {
       entry: {
-        index: path.resolve(__dirname, "./index.ts"),
+        antd: path.resolve(__dirname, '../ui/antd/index.ts'),
+        elementPlus: path.resolve(__dirname, '../ui/elementPlus/index.ts'),
+        index: path.resolve(__dirname, './index.ts'),
+        naiveUi: path.resolve(__dirname, '../ui/naiveUi/index.ts'),
       },
+      fileName: (ModuleFormat, entryName) => {
+        const extension = ModuleFormat === 'es' ? 'js' : ModuleFormat;
+        const uiLibraryNames = ['antd', 'elementPlus', 'naiveUi'];
+        if (uiLibraryNames.includes(entryName)) {
+          return `ui/${entryName}/index.${extension}`;
+        }
+        return `${entryName}.${extension}`;
+      },
+      formats: ['es', 'cjs'],
       // 指定组件编译入口文件
-      name: "epic-designer",
-      // formats: ["es"],
-      // fileName: (ModuleFormat) => {
-      //   const extension = ModuleFormat === 'es' ? 'js' : ModuleFormat
-      //   // 区分默认入口文件和UI注册文件
-      //   const path = `epic-designer.${extension}`
-      //   return path
-      // }
+      name: 'epic-designer',
     },
+    outDir: 'dist',
     // 库编译模式配置
     rollupOptions: {
-      // 确保外部化处理那些你不想打包进库的依赖
-      external: ["vue", "monaco-editor"],
       output: {
         // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
         globals: {
-          vue: "Vue",
+          vue: 'Vue',
         },
+        // 保留模块的原始目录结构
+        preserveModules: true,
+        preserveModulesRoot: '../',
       },
+      plugins: [
+        rollupCopy({
+          // 钩子，插件运行在rollup完成打包并将文件写入磁盘之前
+          hook: 'writeBundle',
+          targets: [
+            // 路径
+            { dest: './dist/', src: '../core/theme' },
+            {
+              dest: './dist/',
+              rename: 'style.css',
+              src: './dist/epic-designer.css',
+            },
+          ],
+          verbose: true, // 在终端进行console.log
+        }) as PluginOption,
+      ],
     },
-    commonjsOptions: {
-      esmExternals: true,
+  },
+  plugins: [
+    vue(),
+    UnoCSS() as PluginOption,
+    dts({
+      entryRoot: '../',
+      exclude: ['../**/__test__/**'],
+      outDir: 'dist',
+    }),
+    nodeExternals(),
+  ],
+  resolve: {
+    alias: {
+      '@epic-designer/base-ui': path.resolve(
+        __dirname,
+        '../ui-kit/base-ui/src/index.ts',
+      ),
+      '@epic-designer/core': path.resolve(__dirname, '../core/src/index.ts'),
+      '@epic-designer/hooks': path.resolve(__dirname, '../hooks/src/index.ts'),
+      '@epic-designer/panel-ui': path.resolve(
+        __dirname,
+        '../ui-kit/panel-ui/src/index.ts',
+      ),
+      '@epic-designer/types': path.resolve(__dirname, '../types/src/index.ts'),
+      '@epic-designer/ui': path.resolve(__dirname, '../ui/'),
+      '@epic-designer/utils': path.resolve(__dirname, '../utils/src/index.ts'),
     },
   },
 });

@@ -1,135 +1,154 @@
-import { type ComponentConfigModel } from "@epic-designer/utils";
+import type { ComponentConfigModel } from '@epic-designer/utils';
+
 export default {
-  component: async () =>
-    (await import("ant-design-vue/lib/input")).InputPassword,
-  defaultSchema: {
-    label: "密码输入框",
-    type: "password",
-    icon: "epic-icon-mima",
-    field: "password",
-    input: true,
-    componentProps: {
-      placeholder: "请输入",
-      bordered: true,
-    },
-  },
+  bindModel: 'value',
+  component: async () => (await import('ant-design-vue')).InputPassword,
   config: {
+    action: [
+      {
+        description: '使 input 获取焦点',
+        type: 'focus',
+      },
+      {
+        description: '使 input 失去焦点',
+        type: 'blur',
+      },
+      {
+        description: '选中 input 中的文字',
+        type: 'select',
+      },
+    ],
     attribute: [
       {
-        label: "字段名",
-        type: "input",
-        field: "field",
+        field: 'field',
+        label: '字段名',
+        type: 'input',
       },
       {
-        label: "文字",
-        type: "input",
-        field: "label",
+        field: 'label',
+        label: '标题',
+        type: 'input',
       },
       {
-        label: "占位内容",
-        type: "input",
-        field: "componentProps.placeholder",
+        field: 'componentProps.placeholder',
+        label: '占位内容',
+        type: 'input',
       },
       {
-        label: "尺寸",
-        type: "select",
         componentProps: {
-          placeholder: "请选择",
           allowClear: true,
           options: [
             {
-              label: "large",
-              value: "large",
+              label: '大号',
+              value: 'large',
             },
             {
-              label: "middle",
-              value: "middle",
+              label: '中等',
+              value: 'middle',
             },
             {
-              label: "small",
-              value: "small",
+              label: '小型',
+              value: 'small',
             },
           ],
+          placeholder: '请选择',
         },
-        field: "componentProps.size",
+        field: 'componentProps.size',
+        label: '尺寸',
+        type: 'select',
       },
       {
-        label: "有边框",
-        type: "switch",
-        field: "componentProps.bordered",
-      },
-      {
-        label: "最大输入长度",
-        type: "number",
-        field: "componentProps.maxLength",
         componentProps: {
-          placeholder: "请输入",
+          checkedValue: false,
+          unCheckedValue: true,
         },
+        field: 'componentProps.bordered',
+        label: '无边框',
+        type: 'switch',
       },
       {
-        label: "统计字数",
-        type: "switch",
-        field: "componentProps.showCount",
+        componentProps: {
+          placeholder: '请输入',
+        },
+        field: 'componentProps.maxLength',
+        label: '最大输入长度',
+        type: 'number',
       },
       {
-        label: "可清空",
-        type: "switch",
-        field: "componentProps.allowClear",
+        field: 'componentProps.showCount',
+        label: '统计字数',
+        type: 'switch',
       },
       {
-        label: "禁用",
-        type: "switch",
-        field: "componentProps.disabled",
+        field: 'componentProps.visible',
+        label: '密码可见',
+        type: 'switch',
       },
       {
-        label: "隐藏",
-        type: "switch",
-        field: "componentProps.hidden",
+        componentProps: {
+          checkedValue: false,
+          unCheckedValue: true,
+        },
+        field: 'componentProps.visibilityToggle',
+        label: '隐藏切换按钮',
+        type: 'switch',
       },
       {
-        label: "表单校验",
-        type: "ERuleEditor",
-        layout: "vertical",
-        field: "rules",
-        describe: "校验规则需要配合表单使用",
+        field: 'componentProps.allowClear',
+        label: '可清空',
+        type: 'switch',
+      },
+      {
+        field: 'componentProps.disabled',
+        label: '禁用',
+        type: 'switch',
+      },
+      {
+        field: 'componentProps.hidden',
+        label: '隐藏',
+        type: 'switch',
+      },
+      {
+        description: '校验规则需要配合表单使用',
+        field: 'rules',
+        label: '表单校验',
+        layout: 'vertical',
+        type: 'ERuleEditor',
       },
     ],
     event: [
       {
-        type: "input",
-        describe: "输入值",
+        description: '输入值',
+        type: 'input',
       },
       {
-        type: "change",
-        describe: "值修改",
+        description: '值修改',
+        type: 'change',
       },
       {
-        type: "pressEnter",
-        describe: "按下回车的回调",
+        description: '按下回车的回调',
+        type: 'pressEnter',
       },
       {
-        type: "focus",
-        describe: "获取焦点",
+        description: '获取焦点',
+        type: 'focus',
       },
       {
-        type: "blur",
-        describe: "失去焦点",
-      },
-    ],
-    action: [
-      {
-        type: "focus",
-        describe: "使 input 获取焦点",
-      },
-      {
-        type: "blur",
-        describe: "使 input 失去焦点",
-      },
-      {
-        type: "select",
-        describe: "选中 input 中的文字",
+        description: '失去焦点',
+        type: 'blur',
       },
     ],
   },
-  bindModel: "value",
+  defaultSchema: {
+    componentProps: {
+      placeholder: '请输入',
+    },
+    field: 'password',
+    input: true,
+    label: '密码输入框',
+    type: 'password',
+  },
+  groupName: '表单',
+  icon: 'icon--epic--lock-outline',
+  sort: 720,
 } as ComponentConfigModel;

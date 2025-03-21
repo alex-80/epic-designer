@@ -1,3 +1,317 @@
+## 0.9.30（2025-01-15）
+### ✨ Feat
+- 新增样式隔离容器类名 `epic-scoped`，用于限定 UnoCSS 生成的样式
+- 选中组件后的小按钮物件新增选中当前组件的父组件功能
+- find函数支持通过组件属性字段查找
+- 新增findAll方法，可查询所有匹配组件实例，返回数组
+- 设计器隐藏头部时，在工具栏添加预览及保存按钮
+- 新增imported导入数据事件
+### ✨ Refactor
+- 重构pageSchema初始化方式
+- 优化find查找功能，只要匹配到一个组件就结束查找并返回数据
+### 🐛 Bug Fixes
+- 修复设计界面page组件高度未占满画布高度问题
+
+## 0.9.28（2024-12-25）
+### 🐛 Bug Fixes
+- 修复设计界面无法使用鼠标滚动问题
+- 修复事件配置中，由于组件相同导致没有重新渲染的问题
+
+## 0.9.27（2024-12-23）
+### ✨ Feat
+- 自定义组件可以通过注册配置扩展样式面板
+- 新增draggable属性，设置是否允许拖拽画布，默认为true
+### ✨ Refactor
+- 移除setDateLocale函数,设置antd组件国际化不再依赖该函数
+### 🐛 Bug Fixes
+- 修复getData数据后添加数据并重新setData数据，只更新数据但是设计区域无渲染更新
+- 修复未页面未获取焦点时，按ctrl键+鼠标滚轮缩放画布异常问题
+- 修复画布切换为mode、pad时，无法正常回显数据问题
+- 修复数据回显案例点击清空后，撤销无效问题
+- 修复classList不存在报错问题
+- 修复设置禁止拖拽画布时底部滚动条未隐藏问题
+
+## 0.9.26（2024-11-27）
+### ✨ Feat
+- EDesigner组件新增hidePreviewConfirm属性，隐藏预览表单数据按钮
+- 设计界面新增节点遮罩，防止误触发节点事件
+### 🐛 Bug Fixes
+- 解决dynamicFormItem组件属性透传警告问题
+
+## 0.9.25（2024-10-16）
+### 🐛 Bug Fixes
+- 修复antd组件校验异常问题
+
+## 0.9.24（2024-10-16）
+### ✨ Refactor
+- unocss基础单位由rem转px
+### 🐛 Bug Fixes
+- 修复表单校验规则编辑内存溢出问题
+## 0.9.23（2024-09-21）
+### ✨ Feat
+- EBuilder组件新增getForms、setForms、validateAll函数
+### ✨ Refactor
+- 重构EBuilder组件
+- 重构ENode组件，减少重复代码
+### 🐛 Bug Fixes
+- 修复加载数据里面包含未注册组件时报错问题
+- 修复属性编辑输入中文时光标自动跳到输入字段的末尾
+- 修复ts类型引入路径错误
+- 修复根节点非page时,根节点判断逻辑异常问题
+- 修复单表单模式时，传入defaultSchema无效
+- 修复数据回显时未进行深拷贝，导致源数据被修改问题
+
+## 0.9.22（2024-09-07）
+### ✨ Feat
+- 右侧属性窗口，没有设置label的将不显示label
+- 大纲组件添加隐藏状态标识
+### ✨ Refactor
+- 调整toolbar样式
+### 🐛 Bug Fixes
+- lint 样式重复定义
+- 修正 Safari 下拖拽组件和画布失效问题、Chrome 下鼠标出现地球的问题、Safari 下拖拽阴影问题
+- formMode 为 true 的时候，大纲tree 拖拽到外部导致节点丢失问题
+- 修复缩放设置组件无法高亮选项
+- 修复禁止缩放时切换设备无效问题
+
+## 0.9.21（2024-08-21）
+### ✨ Refactor
+- 大纲显示组件id
+- 重构预览组件,查看数据时验证所有表单组件
+### 🐛 Bug Fixes
+- 修复getUUID函数无法通过生成长度测试问题
+- 修复重新加载组件，历史记录未清空问题
+- 修复设计器组件切换表单模式时导致其他非表单模式的表单组件也被隐藏问题
+- 修复不在表单内的输入组件不可输入，导致组件无法正常交互问题
+- 解决项目中也使用monaco-editor，导致monaco-editor打包两次问题
+
+## 0.9.20（2024-08-04）
+### ✨ Feat
+- EDesigner新增sourceCodeReadOnly属性设置源码面板为只读状态
+### ✨ Refactor
+- 优化画布自动缩放功能
+### 🐛 Bug Fixes
+- 修复在属性面板编辑后再使用源码面板编辑，属性面板无法正常回显数据
+
+## 0.9.19（2024-07-23）
+### ✨ Feat
+- EDesigner新增切换单表单模式属性formMode
+- 组件注册配置新增sort排序字段
+- 组件Icon支持iconify图标库扩展
+### ✨ Refactor
+- 切换内置图标
+### 🐛 Bug Fixes
+- 修复文档搜索功能无法使用问题
+
+## 0.9.18（2024-07-13）
+### 🐛 Bug Fixes
+- 修复点击清空按钮按钮无法正常重置设计器数据问题
+- 修复公共函数和组件函数逻辑异常导致页面卡主问题
+- 修复setAttr函数组件componentProps属性undefined导致异常报错问题
+
+## 0.9.17（2024-07-11）
+### ✨ Refactor
+- EBuilder组件setData仅修改传入的字段值
+### 🐛 Bug Fixes
+- 修复表单组件调整表单布局为vertical时参数类型警告问题
+- 修复动作配置弹出框icon显示异常问题
+- 修复表单存在校验信息时,数据回显后校验信息保持校验失败状态
+- 修复pageSchema中包含'#'字符时,导出数据被截断的问题
+- 修复表单内联模式标签文本与组件自动换行问题
+- 修复自定义函数逻辑异常导致页面卡主问题
+
+## 0.9.16（2024-06-14）
+### 🐛 Bug Fixes
+- 修复elementPlus/naiveUi表单数据回显无效问题
+
+## 0.9.15（2024-06-14）
+### ✨ Feat
+- EDesigner组件暴露预览方法
+- EBuilder组件新增formData属性用于表单数据回显
+### 🐛 Bug Fixes
+- 修复选项管理拖拽后无法新增选项问题
+- 修复级联选项管理，子选项拖拽后数据重复问题
+- 修复扩展iconfont无效问题
+- 修复ant design vue 升级4.2.3后formItem的label部分场景显示异常
+- 修复预览时点击组件label会切换选中组件问题
+
+## 0.9.14（2024-05-25）
+### ✨ Refactor
+- 组件label统一修改为标题
+### 🐛 Bug Fixes
+- 修复弹出builder组件图标异常问题
+
+## 0.9.13（2024-05-23）
+### 🐛 Bug Fixes
+- 修复弹出窗口内组件图标异常问题
+
+## 0.9.12（2024-05-20）
+
+### ✨ Feat
+- 重构注册配置接口，新增editConstraints约束配置对象
+- antd日期选择器新增更多日期类型
+- antd组件属性补充
+- elementPlus组件属性补充
+### ✨ Refactor
+- 重构注册配置接口，新增editConstraints约束配置对象
+- 调整图标font-class影响范围,防止与项目其他的icon冲突
+- 将page组件name属性移至componentProps内
+### 🐛 Bug Fixes
+- 修复暗黑主题在组件渲染之前设置，导致异常问题
+- 修复isDark状态错误问题
+
+## 0.9.11（2024-05-13）
+
+调整注册配置，将’icon‘属性移至 ComponentConfigModel 接口的‘defaultSchema’对象之外
+影响：自定义组件，请自行调整注册配置中icon位置
+
+### ✨ Feat
+- 新增暗黑主题,添加css变量
+
+### 🐛 Bug Fixes
+
+- 修复根容器的隐藏按钮点击报错
+- 修复elementPlus Radio组件警告问题
+- 修复EDesigner组件初始化报错null问题
+
+## 0.9.10（2024-05-03）
+
+### ✨ Feat
+- 日期选择器调整类型时自动调整数据格式
+
+## 0.9.9（2024-04-27）
+
+### ✨ Feat
+- 注册配置新增fixedField字段锁定表单项field不添加UUID
+- 选中元素不在可视区时自动滚动到相应位置
+- 新增hideActivitybar、hideRightSidebar方法
+- antd级联组件新增回填方式属性
+- element新增文本域组件
+
+## 0.9.8（2024-04-18）
+
+### 🐛 Bug Fixes
+
+- 修复打开动作面板后导致无法正常选中元素问题
+- 修复antdUI设置数字输入框默认值为string类型问题
+
+## 0.9.7（2024-04-17）
+
+### ✨ Feat
+
+- EDesigner新增toggleDeviceMode事件
+- switch组件自动添加默认值
+- 新增lockDefaultSchemaEdit属性，锁定默认组件是否可复制删除
+- 新增title属性
+- 右侧面板新增折叠按钮
+- 输出结果新增弹出框展示
+- 校验组件添加ruleType属性，设置默认校验规则类型
+
+### 🐛 Bug Fixes
+
+- 修复初始化时未构建自定义函数问题
+
+## 0.9.6（2024-04-08）
+
+### ✨ Feat
+
+- EDesigner新增defaultSchema属性
+- 新增getFormSchemas函数
+
+## 0.9.5（2024-04-02）
+
+### ✨ Feat
+
+- 自定义函数epic对象可调用pluginManager对象
+
+### 🐛 Bug Fixes
+
+- 修复未编译epic-designer包模块时，无法正常启动项目
+- 修复EInputSize组件在某些情况下单位显示不正常以及无法输入部分数字的问题
+- 修复getFormFields函数无法正常查询问题
+- 修复设计模式修改默认值时，设计视图无法更新问题
+- 修复公共函数无法获取触发对象问题
+- 修复设置值表单项与设计元素不一致问题
+- 修复组件默认hidden为true时，无法获取组件实例调用setAttr函数来显示组件
+
+## 0.9.4（2024-03-23）
+
+### ✨ Feat
+
+- [pageManager对象添加find方法](https://github.com/Kchengz/epic-designer/commit/c7355ad981c644e8fa51e628ceec35fcb3065be5)
+- [EBuilder新增disabled属性，禁用所有输入项](https://github.com/Kchengz/epic-designer/commit/f57204f66243d0bfa80f84002570df9e7cf9c8a8)
+- [builder组件新增getFormInstance方法函数](https://github.com/Kchengz/epic-designer/commit/b54e679d7311d335169f60fa93a6d7a375124616)
+
+### ✨ refactor
+
+- antd v3 v4版本兼容合并
+
+### 🐛 Bug Fixes
+
+- [修复setAttr方法设置组件属性时会直接修改componentSchema问题](https://github.com/Kchengz/epic-designer/commit/b94a30e802e8730a6dc238cad0a52e0e0c3bb0eb)
+- [修复同时两个designer时，第二个设计器选择异常问题](https://github.com/Kchengz/epic-designer/commit/127e107beebaaa8c65fe44d5cf95e192700bce9b)
+- [修复缩放计算出现Infinity问题](https://github.com/Kchengz/epic-designer/commit/f3d2954a9e1e669b35d44cfb692e1f7ac8e00181)
+- [Antd(input)没有显示最大字符数](https://github.com/Kchengz/epic-designer/commit/88d63bbaecd371ab67884c64f7b6f6eaf30e3039)
+
+## 0.9.3（2024-03-14）
+
+### 🐛 Bug Fixes
+
+- [修复使用EpicDesigner时，提示缺少不必要的依赖问题](https://github.com/Kchengz/epic-designer/commit/c17c5c58bdb3e61d2a0a7b8d021b27a1399dd956)
+- [修复ui组件初始化未完成就渲染页面的异常问题](https://github.com/Kchengz/epic-designer/commit/f4e711ef82809ab60fc6e1a7dc6f31f976dbcb52)
+
+## 0.9.1（2024-03-13）
+
+本次更新重做了组件分组、ui设置及内部变量名称修改
+
+pluginManager管理器移除~~setComponentGroup~~、~~addComponentGroup~~方法，
+新增`setComponentGroupNameMap`、`clearComponentGroupNameMap`、`setSortedGroups`、`clearSortedGroups`、`hideComponent`、`showComponent`等方法
+
+### ✨ Feat
+
+- [新增element plus组件国际化支持](https://github.com/Kchengz/epic-designer/commit/b34a4ba6697e796f7dcd74b414d029eb406a2da5)
+- [新增antdv国际化方案](https://github.com/Kchengz/epic-designer/commit/e6350ed0531cad040cb885fe10628515653c7325)
+- [事件编辑折叠面板自动展开已配置动作的面板](https://github.com/Kchengz/epic-designer/commit/17fe46a4cbf14a8bc06e2eebcb19b18ec0334481) [#7](https://github.com/Kchengz/epic-designer/issues/7)
+- [新增分组排序设置函数setSortedGroups](https://github.com/Kchengz/epic-designer/commit/25d67af7c3f4d8631bf50093bf037216dc0ac495)
+
+### ✨ refactor
+
+- [组件配置添加groupName 属性](https://github.com/Kchengz/epic-designer/commit/0e2abe80e22903d69e5268e41e1eab24129269e1)
+- [重构组件分组管理，组件注册配置可设置分组](https://github.com/Kchengz/epic-designer/commit/2e6a5e4f2496edc9f45d1d4b2a43a94e700abe85)
+- [将record字段重命名为componentSchema](https://github.com/Kchengz/epic-designer/commit/b9def1bee0374f1a56cc360d4697633c5feac8fb)
+- [将NodeItem类型重命名为ComponentSchema并添加类型注释](https://github.com/Kchengz/epic-designer/commit/af1f5bbcfb783f75d0beb9d5a1ed4e7701fc2c63)
+- [调整表单组件name至componentProps属性内](https://github.com/Kchengz/epic-designer/commit/6b18519df7832a7a7798e5e9dacefff13fb80e27)
+
+### 🐛 Bug Fixes
+
+- [修复AntdV3安装无效问题](https://github.com/Kchengz/epic-designer/commit/0af6a102cb3413a32e65a729a4bcf22124d9b42f)
+- [修复element-plus组件无法正常渲染问题](https://github.com/Kchengz/epic-designer/commit/4b3238b140dbc67c162a85e9996839d3921315c2)
+
+## 0.8.15（2024-01-11）
+
+### ✨ Feat
+
+- [新增数据查看面板](https://github.com/Kchengz/epic-designer/commit/18c0199ceaf4016b2dc70580ed28f84c03bef5ff)
+
+### 🐛 Bug Fixes
+
+- [修复画布宽高设置为px以外的单位不会生效的问题](https://github.com/Kchengz/epic-designer/commit/79d502c37b83247713bb203dc7f7706e12adb1f0)
+- [修复校验不通过是外部的Promise保持pedding的bug](https://github.com/Kchengz/epic-designer/commit/00160a3d7ea00f7b9415c3cdff789fdced06b443)
+- [修复编译后types类型文件不存在问题](https://github.com/Kchengz/epic-designer/commit/4a996ae396a39761fda6970e79cdd7fb4d6487c6)
+
+## 0.8.13（2023-11-21）
+
+### ✨ Feat
+
+- [新增隐藏头部属性](https://github.com/Kchengz/epic-designer/commit/de558e9b0693508cec3d9bb9634a176053b12708)
+- [新增header插槽](https://github.com/Kchengz/epic-designer/commit/8c9295ec5aa6f73b13898b9b7e005deac6ef8953)
+
+### 🐛 Bug Fixes
+
+- [修复上传图片图标不显示问题](https://github.com/Kchengz/epic-designer/commit/08f16cfff58adc4a09aa8489d1a48e91af0138b9)
+- [修复用户扩展icon无法正常显示问题](https://github.com/Kchengz/epic-designer/commit/f3288745b694318cd0d6cfb0dbabbb1aa00e41ca)
+- [修复组件ts类型缺失问题](https://github.com/Kchengz/epic-designer/commit/b91bd0e13c5e5ba3fa3c11ff7992a85ac0ca7727)
+
 ## 0.8.12（2023-11-16）
 
 ### ✨ Feat

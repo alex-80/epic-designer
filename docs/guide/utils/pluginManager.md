@@ -1,4 +1,4 @@
-## pluginManager 插件管理器
+# pluginManager 插件管理器
 
 :::tip 插件管理器
 `pluginManager` 是用于管理扩展组件，模块功能的管理器对象
@@ -12,6 +12,8 @@ import { pluginManager,type ComponentConfigModel } from 'epic-designer'
 
 const Test = {
   component: () => import('./cmp.vue'),
+  groupName:"自定义组件",
+  icon: "epic-icon-write",
   defaultSchema: {
     label: '测试扩展组件',
     type: 'test',
@@ -31,11 +33,6 @@ const Test = {
 
 // 注册组件
 pluginManager.registerComponent(Test);
-// 添加到组件库分组 左侧不会有新增的组件可选
-pluginManager.addSchemaGroup({
-  title: "自定义",
-  list: ["test"],
-});
 ```
 
 在同级目录下创建cmp.vue 
@@ -49,18 +46,6 @@ pluginManager.addSchemaGroup({
 ```
 
 
-
-## 组件库分组管理
-
-```ts
-import { pluginManager } from "epic-designer";
-
-// 设置页面左侧组件分组内容 - 用于过滤不需要组件，只设置需要展示组件即可
-pluginManager.setSchemaGroup({
-  title: "自定义",
-  list: ["input"],
-});
-```
 
 ## Methods
 
@@ -120,7 +105,23 @@ pluginManager.setSchemaGroup({
 
 
 
-#### registerActivitybar
+#### hideActivitybar
+
+类型：`(value: string, attr?: string)=> void`
+
+说明：隐藏活动栏
+
+
+
+#### showActivitybar
+
+类型：`(value: string, attr?: string)=> void`
+
+说明：显示活动栏
+
+
+
+#### registerRightSidebar
 
 类型：`(rightSidebar: RightSidebarModel) => void`
 
@@ -136,27 +137,89 @@ pluginManager.setSchemaGroup({
 
 
 
-#### setSchemaGroup
+#### hideRightSidebar
 
-类型：`(schemaGroup: SchemaGroupItem[]) => void
+类型：`(value: string, attr?: string)=> void`
+
+说明：隐藏右侧栏
+
+
+
+#### showRightSidebar
+
+类型：`(value: string, attr?: string)=> void`
+
+说明：显示右侧栏
+
+
+
+#### ~~setComponentGroup~~(v0.9.1已删除)
+
+类型：`(componentGroup: ComponentGroupItem[]) => void`
 
 说明：设置分组,这个操作将会覆盖原来的数据
 
 
 
-#### addSchemaGroup
+#### ~~addComponentGroup~~(v0.9.1已删除)
 
-类型：`(schemaGroupItem: SchemaGroupItem) => void
+类型：`(componentGroupItem: ComponentGroupItem) => void`
 
 说明：添加分组
 
+#### setComponentGroupNameMap
 
+类型：`(groupName: string, mapName: string) => void`
+
+说明：设置组件分组名称到映射名称的关系
+
+#### clearComponentGroupNameMap
+
+类型：`() => void`
+
+说明：清空组件分组名称到映射名称的关系
+
+#### setSortedGroups
+
+类型：`(sortedGroups: string[]) => void`
+
+说明：设置组件分组的排序
+
+#### clearSortedGroups
+
+类型：`() => void`
+
+说明：清空组件分组的排序
+
+#### hideComponent
+
+类型：`(type: string) => void`
+
+说明：添加需要隐藏的组件类型
+
+#### showComponent
+
+类型：`(type: string) => void`
+
+说明：移除需要隐藏的组件类型
+
+#### setHideComponents
+
+类型：`(types: string[]) => void`
+
+说明：设置需要隐藏的组件类型数组
 
 #### addPublicMethod
 
-类型：`(method: MethodModel) => void
+类型：`(method: MethodModel) => void`
 
 说明：添加公共方法
+
+#### removePublicMethod
+
+类型：`(methodName: string) => void`
+
+说明：移除公共方法
 
 
 

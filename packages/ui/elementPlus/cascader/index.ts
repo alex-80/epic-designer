@@ -1,180 +1,214 @@
-import { type ComponentConfigModel } from "@epic-designer/utils";
+import type { ComponentConfigModel } from '@epic-designer/utils';
+
 export default {
-  component: async () => (await import("element-plus")).ElCascader,
-  defaultSchema: {
-    label: "级联选择器",
-    type: "cascader",
-    icon: "epic-icon-guanlian",
-    field: "cascader",
-    input: true,
-    componentProps: {
-      options: [
-        {
-          label: "选项1",
-          value: "选项1",
-        },
-        {
-          label: "选项2",
-          value: "选项2",
-        },
-      ],
-      placeholder: "请选择",
-      showAllLevels: true,
-      separator: '/',
-      size: 'default',
-      props: {
-        expandTrigger: 'click'
-      }
-    },
-  },
+  component: async () => (await import('element-plus')).ElCascader,
   config: {
+    action: [
+      {
+        description: '获取当前选中节点',
+        type: 'getSelectedNodes',
+      },
+      {
+        description: '切换 popper 可见状态',
+        type: 'togglePopperVisible',
+      },
+    ],
     attribute: [
       {
-        label: "字段名",
-        type: "input",
-        field: "field",
+        field: 'field',
+        label: '字段名',
+        type: 'input',
       },
       {
-        label: "文字",
-        type: "input",
-        field: "label",
+        field: 'label',
+        label: '标题',
+        type: 'input',
       },
       {
-        label: "默认值",
-        type: "cascader",
-        field: "componentProps.defaultValue",
+        field: 'componentProps.defaultValue',
+        label: '默认值',
+        type: 'cascader',
       },
       {
-        label: "占位内容",
-        type: "input",
-        field: "componentProps.placeholder",
+        field: 'componentProps.placeholder',
+        label: '占位内容',
+        type: 'input',
       },
       {
-        label: "尺寸",
-        type: "select",
-        defaultValue: "default",
         componentProps: {
+          clearable: true,
           options: [
             {
-              label: "large",
-              value: "large",
+              label: '大号',
+              value: 'large',
             },
             {
-              label: "default",
-              value: "default",
+              label: '中等',
+              value: 'default',
             },
             {
-              label: "small",
-              value: "small",
+              label: '小型',
+              value: 'small',
             },
           ],
+          placeholder: '请选择',
         },
-        field: "componentProps.size",
+        field: 'componentProps.size',
+        label: '尺寸',
+        type: 'select',
       },
       {
-        label: "可多选",
-        type: "switch",
-        field: "componentProps.props.multiple",
-        onChange: ({ value, values }) => {
-          if (value) {
-            values.componentProps.defaultValue = [];
-          } else {
-            values.componentProps.defaultValue = null;
-          }
-        },
-      },
-      {
-        label: "折叠Tag",
-        type: "switch",
-        field: "componentProps.collapseTags",
-        show: ({values})=>values.componentProps.props.multiple
-      },
-      {
-        label: "显示被折叠标签",
-        type: "switch",
-        field: "componentProps.collapseTagsTooltip",
-        show: ({values})=>values.componentProps.props.multiple&&values.componentProps.collapseTags
-      },
-      {
-        label: "展示完整路径",
-        type: "switch",
-        field: "componentProps.showAllLevels",
-      },
-      {
-        label: "次级菜单展开方式",
-        type: "select",
-        field: "componentProps.props.expandTrigger",
         componentProps: {
-          options:  [
+          placeholder: '请输入',
+        },
+        field: 'componentProps.separator',
+        label: '分割符',
+        type: 'input',
+      },
+      {
+        componentProps: {
+          clearable: true,
+          options: [
             {
               label: 'click',
-              value: 'click'
+              value: 'click',
             },
             {
               label: 'hover',
-              value: 'hover'
-            }
-          ]
-        }
+              value: 'hover',
+            },
+          ],
+          placeholder: '请选择',
+        },
+        field: 'componentProps.props.expandTrigger',
+        label: '次级菜单展开方式',
+        type: 'select',
       },
       {
-        label: "可搜索",
-        type: "switch",
-        field: "componentProps.filterable",
+        field: 'componentProps.filterable',
+        label: '可搜索',
+        type: 'switch',
       },
       {
-        label: "分割符",
-        type: "input",
-        field: "componentProps.separator",
+        field: 'componentProps.props.multiple',
+        label: '可多选',
+        onChange: ({ value, values }) => {
+          values.componentProps.defaultValue = value ? [] : null;
+        },
+        type: 'switch',
       },
       {
-        label: "可清空",
-        type: "switch",
-        field: "componentProps.clearable",
+        field: 'componentProps.collapseTags',
+        label: '折叠Tag',
+        show: ({ values }) => values.componentProps.props.multiple,
+        type: 'switch',
       },
       {
-        label: "禁用",
-        type: "switch",
-        field: "componentProps.disabled",
+        field: 'componentProps.collapseTagsTooltip',
+        label: '显示被折叠标签',
+        show: ({ values }) =>
+          values.componentProps.props.multiple &&
+          values.componentProps.collapseTags,
+        type: 'switch',
       },
       {
-        label: "隐藏",
-        type: "switch",
-        field: "componentProps.hidden",
+        componentProps: {
+          activeValue: false,
+          inactiveValue: true,
+        },
+        field: 'componentProps.showAllLevels',
+        label: '不显示路径',
+        type: 'switch',
       },
       {
-        label: "选项管理",
-        type: "EOptionsEditor",
-        layout: "vertical",
-        field: "componentProps.options",
+        description: '父子节点不互相关联',
+        field: 'componentProps.props.checkStrictly',
+        label: '父级可选',
+        type: 'switch',
+      },
+      {
+        componentProps: {
+          activeValue: false,
+          inactiveValue: true,
+        },
+        field: 'componentProps.props.emitPath',
+        label: '只获取选中节点',
+        type: 'switch',
+      },
+      {
+        field: 'componentProps.clearable',
+        label: '可清空',
+        type: 'switch',
+      },
+      {
+        field: 'componentProps.disabled',
+        label: '禁用',
+        type: 'switch',
+      },
+      {
+        field: 'componentProps.hidden',
+        label: '隐藏',
+        type: 'switch',
+      },
+      {
         componentProps: {
           tree: true,
         },
-        describe: "配置选项",
+        description: '配置选项',
+        field: 'componentProps.options',
+        label: '选项管理',
+        layout: 'vertical',
+        type: 'EOptionsEditor',
       },
       {
-        label: "表单校验",
-        type: "ERuleEditor",
-        layout: "vertical",
-        field: "rules",
-        describe: "校验规则需要配合表单使用",
+        componentProps: {
+          ruleType: 'array',
+        },
+        description: '校验规则需要配合表单使用',
+        field: 'rules',
+        label: '表单校验',
+        layout: 'vertical',
+        type: 'ERuleEditor',
       },
     ],
     event: [
       {
-        type: "change",
-        describe: "选中节点变化时",
+        description: '选中节点变化时',
+        type: 'change',
       },
       {
-        type: "close",
-        describe: "面板的关闭事件",
+        description: '	当失去焦点时触发',
+        type: 'blur',
       },
-    ],
-    action: [
       {
-        type: "getCheckedNodes",
-        describe: "获取当前选中节点",
+        description: '当获得焦点时触发',
+        type: 'focus',
       },
     ],
   },
+  defaultSchema: {
+    componentProps: {
+      options: [
+        {
+          label: '选项1',
+          value: '选项1',
+        },
+        {
+          label: '选项2',
+          value: '选项2',
+        },
+      ],
+      placeholder: '请选择',
+      props: {
+        expandTrigger: 'click',
+      },
+    },
+    field: 'cascader',
+    input: true,
+    label: '级联选择器',
+    type: 'cascader',
+  },
+  groupName: '表单',
+  icon: 'icon--epic--full-coverage-outline',
+  sort: 900,
 } as ComponentConfigModel;

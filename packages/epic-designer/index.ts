@@ -1,7 +1,9 @@
-export * from '../core'
+import 'virtual:uno.css';
 
-export * from '../utils'
+export * from '@epic-designer/core';
 
-export * from '../ui'
+export * from '@epic-designer/hooks';
 
-export * from '../ui-antdv3/src'
+export * from '@epic-designer/types';
+
+export * from '@epic-designer/utils';

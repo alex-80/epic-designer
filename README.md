@@ -1,4 +1,4 @@
-![](https://epic.kcz66.com/static/logo.png#pic_center)
+![](https://examples.epicjs.cn/static/logo.png#pic_center)
 
 <h3 align="center" style="background-image:-webkit-linear-gradient(left,#44c0fa,#c26cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">EpicDesigner</h3>
 
@@ -22,15 +22,17 @@
 
 📦gitee仓库：[https://gitee.com/kcz66/epic-designer](https://gitee.com/kcz66/epic-designer)
 
-📖文档地址：[https://kcz66.gitee.io/epic-designer/](https://kcz66.gitee.io/epic-designer/)
+📖文档地址：[https://docs.epicjs.cn](https://docs.epicjs.cn)
+
+📖文档备用地址：[https://www.kcz66.com/epic-designer/](https://www.kcz66.com/epic-designer/)
 
 💎项目预览地址：
 
-- element-plus：[https://epic.kcz66.com/demo/element-plus/](https://epic.kcz66.com/demo/element-plus/)
-- antdv3：[https://epic.kcz66.com/demo/antdv3/](https://epic.kcz66.com/demo/antdv3/)
-- naive-ui：[https://epic.kcz66.com/demo/naive-ui/](https://epic.kcz66.com/demo/naive-ui/)
+- ElementPlus：[https://examples.epicjs.cn/element-plus/designer/basic](https://examples.epicjs.cn/element-plus/designer/basic?maximize=1)
+- AntDesignVue：[https://examples.epicjs.cn/ant-designe-vue/designer/basic](https://examples.epicjs.cn/ant-designe-vue/designer/basic?maximize=1)
+- NaiveUi：[https://examples.epicjs.cn/naive-ui/designer/basic](https://examples.epicjs.cn/naive-ui/designer/basic?maximize=1)
 
-
+> 使用必须遵守国家法律法规，⛔不允许非法项目使用，后果自负❗
 
 ## 简介
 
@@ -46,12 +48,12 @@
 #### 功能
 
 - [x] 拖拽设计
-- [x] 自定义 actionBar
-- [x] 布局组件扩展
+- [x] 自定义动作栏扩展
 - [x] 自定义组件扩展
+- [x] 布局组件扩展
 - [x] 事件扩展
 - [x] 组件懒加载
-- [x] 完善布局
+- [x] 右侧栏扩展
 - [x] 组件属性自定义
 - [x] 支持不同 UI
 - [x] 插件扩展
@@ -60,13 +62,13 @@
 
 ## 核心组件介绍
 
-#### e-designer 设计器
+#### EDesigner 设计器
 
-`e-designer` 是一个可视化设计器组件，用户可以通过拖拽组件的方式快速生成 JSON 配置。它提供了丰富的组件库和配置项，用户可以根据需要选择合适的组件并配置相应的属性、事件和动作。设计器还提供了实时预览功能，用户可以随时查看所设计页面的效果。最终，用户可以将 JSON 配置导出，用于页面的生成和修改。
+`EDesigner ` 是一个可视化设计器组件，用户可以通过拖拽组件的方式快速生成 JSON 配置。它提供了丰富的组件库和配置项，用户可以根据需要选择合适的组件并配置相应的属性、事件和动作。设计器还提供了实时预览功能，用户可以随时查看所设计页面的效果。最终，用户可以将 JSON 配置导出，用于页面的生成和修改。
 
-#### e-builder 生成器
+#### EBuilder 生成器
 
-`e-builder` 是一个页面构建组件，它可以将设计器生成的 JSON 配置构建成页面，完成组件的渲染、事件绑定和数据回显等操作。
+`EBuilder` 是一个页面构建组件，它可以将设计器生成的 JSON 配置构建成页面，完成组件的渲染、事件绑定和数据回显等操作。
 
 ## 安装 epic-designer
 
@@ -82,7 +84,9 @@ epic-designer 目标是支持多 UI 兼容,目前支持以下 UI
 
 ## 选择 UI 组件库
 
-- ### 选择 element-plus
+### 选择 element-plus
+
+安装ui框架依赖
 
 ```bash
 npm i element-plus
@@ -91,16 +95,20 @@ npm i element-plus
 main.ts 或者 main.js 引入注册组件
 
 ```javascript
+// 引入epic-designer样式
+import "epic-designer/dist/style.css";
+
 // 引入Element plus样式
 import "element-plus/dist/index.css";
-// 引入k-designer样式
-import "epic-designer/dist/style.css";
-import { pluginManager, setupElementPlus } from "epic-designer";
+
+import { setupElementPlus } from "epic-designer/dist/ui/elementPlus";
 // 注册Element UI
-setupElementPlus(pluginManager);
+setupElementPlus();
 ```
 
-- ### 选择 ant-design-vue 
+### 选择 ant-design-vue v4.x版本（antd推荐使用v4.x版本）
+
+安装ui框架依赖
 
 ```bash
 npm i ant-design-vue
@@ -109,37 +117,50 @@ npm i ant-design-vue
 main.ts 或者 main.js 引入注册组件
 
 ```javascript
-// 引入k-designer样式
+// 引入epic-designer样式
 import "epic-designer/dist/style.css";
+
 // 引入antd UI 重置样式
 import "ant-design-vue/dist/reset.css";
-import { pluginManager, setupAntd } from "epic-designer";
+
+import { setupAntd } from "epic-designer/dist/ui/antd";
 // 使用Antd UI
-setupAntd(pluginManager);
+setupAntd();
 ```
-- #### 注：ant-design-vue v3.x版本需要改成下面方式
+
+### ant-design-vue v3.x版本需要改成下面方式
+
+  为了减少维护精力，后续开发测试主要以 v4.x版本，不再对v3.x版本进行测试，建议升级ant-design-vue到v4.x最新版本
+
 ```javascript
+// 引入epic-designer样式
+import "epic-designer/dist/style.css";
+
 // 引入antd UI样式
 import "ant-design-vue/dist/antd.css";
-// 引入k-designer样式
-import "epic-designer/dist/style.css";
-import { pluginManager, setupAntdV3 } from "epic-designer";
+
+import { setupAntd } from "epic-designer/dist/ui/antd";
 // 使用Antd UI
-setupAntdV3(pluginManager);
+setupAntd();
 ```
 
+### 选择 naive-ui
 
-- ### 选择 naive-ui
+安装ui框架依赖
 
+```bash
+npm i -D naive-ui
+```
 
 main.ts 或者 main.js 引入注册组件
 
 ```javascript
-// 引入k-designer样式
+// 引入epic-designer样式
 import "epic-designer/dist/style.css";
-import { pluginManager, setupNaiveUi } from "epic-designer";
+
+import { setupNaiveUi } from "epic-designer/dist/ui/naiveUi";
 // 注册Naive Ui
-setupNaiveUi(pluginManager);
+setupNaiveUi();
 ```
 
 ## EDesigner(设计器) 基础用法
@@ -211,5 +232,5 @@ const pageSchema = {
 ## 捐赠
 如果你觉得epic-designer对你有帮助，欢迎给我捐赠
 
-![](https://epic.kcz66.com/static/donation.png)
+![](https://examples.epicjs.cn/static/donation.png)
 

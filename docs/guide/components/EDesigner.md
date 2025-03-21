@@ -1,4 +1,4 @@
-## EDesigner 设计器
+# EDesigner 设计器
 
 :::tip 设计器
 `EDesigner` 是一个可视化设计器组件，用户可以通过拖拽组件的方式快速生成 JSON 配置。它提供了丰富的组件库和配置项，用户可以根据需要选择合适的组件并配置相应的属性、事件和动作。设计器还提供了实时预览功能，用户可以随时查看所设计页面的效果。最终，用户可以将 JSON 配置导出，用于页面的生成和修改。
@@ -21,9 +21,11 @@
 
 ## 基础用法
 
-<div class="epic-designer-container">
-	<EDesigner  @save="handleSubmit"  />
-</div>
+<ConfigProvider :theme="{ algorithm: isDark ? theme.darkAlgorithm : theme.defaultAlgorithm }">
+  <div class="epic-designer-container">
+    <EDesigner  @save="handleSubmit"  />
+  </div>
+</ConfigProvider>
 
 ```vue
 <template>
@@ -31,31 +33,36 @@
     <EDesigner @save="handleSubmit" />
   </div>
 </template>
-<script setup>
-import { EDesigner } from "epic-designer";
+<script lang="ts" setup>
+import { EDesigner, type PageSchema } from "epic-designer";
 
 /**
  * 点击保存按钮操作
  * @param e
  */
-function handleSubmit(e) {
+function handleSubmit(e:PageSchema) {
   console.log(e);
 }
 </script>
 <style>
 .epic-designer-container {
-  width: 1100px;
+  width: 100%;
   height: 800px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--epic-border-color);
 }
 </style>
 ```
 
 <script setup>
 import "epic-designer/dist/style.css";
-import { pluginManager,EDesigner,setupElementPlus } from "epic-designer";
-import 'element-plus/dist/index.css'
-setupElementPlus(pluginManager);
+import { EDesigner, pluginManager } from "epic-designer";
+import { setupAntd } from "epic-designer/dist/ui/antd";
+import { ConfigProvider, theme } from 'ant-design-vue'
+import { useTheme } from '@epic-designer/hooks'
+const { isDark } = useTheme()
+
+setupAntd(pluginManager);
+
 
 
 function handleSubmit (e) {
@@ -67,7 +74,7 @@ function handleSubmit (e) {
 .epic-designer-container{
 width:1200px;
 height:800px;
-border:1px solid #ccc;
+border: 1px solid var(--epic-border-color);
 position: relative;
 z-index: 20;
 background: white;
@@ -76,23 +83,37 @@ background: white;
 
 ## API
 
-| 参数 | 说明 | 类型 | 默认值 | 版本 |
-| ---- | ---- | ---- | ------ | ---- |
-| -    | -    | -    | -      | -    |
+| 参数                  | 说明                                                       | 类型       | 默认值 | 版本   |
+| --------------------- | ---------------------------------------------------------- | ---------- | ------ | ------ |
+| title                 | 设计器头部标题                                             | string     | -      | 0.9.7  |
+| defaultSchema         | 默认pageSchema，初始化和重置设计器将以该数据为基础模板     | PageSchema | -      | 0.9.6  |
+| lockDefaultSchemaEdit | 锁定defaultSchema中组件不可以复制或移除                    | boolean    | false  | 0.9.7  |
+| disabledZoom          | 是否禁止画布缩放                                           | boolean    | false  | -      |
+| draggable             | 是否允许拖拽画布                                           | boolean    | false  | 0.9.27 |
+| hiddenHeader          | 隐藏头部                                                   | boolean    | false  | -      |
+| formMode              | 单表单模式，开启后不可再拖入表单，根节点默认切换为表单组件 | boolean    | false  | 0.9.19 |
+| sourceCodeReadOnly    | 设置`源码`面板为只读状态                                   | boolean    | false  | 0.9.20 |
+| hidePreviewConfirm    | 隐藏预览页面`表单数据`按钮                                 | boolean    | false  | 0.9.26 |
 
 ## 函数
 
-| 函数名称 | 说明                     | 参数 | 回调参数 | 版本   |
-| -------- | ------------------------ | ---- | -------- | ------ |
-| setData  | 导入 json 数据，继续编辑 | json | Boolean  | 0.0.36 |
-| getData  | 获取 json 数据           | -    | Object   | 0.0.36 |
-| reset    | 清除表单                 | -    | Boolean  | 0.0.36 |
+| 函数名称 | 说明                                           | 参数 | 回调参数 | 版本   |
+| -------- | ---------------------------------------------- | ---- | -------- | ------ |
+| setData  | 导入 json 数据，继续编辑                       | json | Boolean  | 0.0.36 |
+| getData  | 获取 json 数据                                 | -    | Object   | 0.0.36 |
+| reset    | 清除表单                                       | -    | Boolean  | 0.0.36 |
+| preview  | 预览组件，与点击设计器头部预览按钮效果一致     | -    | -        | 0.9.15 |
+| save     | 触发保存事件，与点击设计器头部保存按钮效果一致 | -    | -        | 0.9.29 |
 
 ## 事件
 
-| 事件名称 | 说明               | 参数 | 版本   |
-| -------- | ------------------ | ---- | ------ |
-| save     | 点击保存按钮时回调 | json | 0.0.35 |
+| 事件名称         | 说明                               | 参数       | 版本   |
+| ---------------- | ---------------------------------- | ---------- | ------ |
+| save             | 点击保存按钮时回调                 | json       | 0.0.35 |
+| reset            | 点击清空重置按钮时触发             | PageSchema | 0.9.6  |
+| toggleDeviceMode | 点击切换设备模式时触发             | String     | 0.9.7  |
+| ready            | 组件（包含异步组件）加载完成后触发 | { pageManager }           | - |
+| imported         | 导入数据完成后触发                 | PageSchema | 0.9.30 |
 
 ## 插槽
 

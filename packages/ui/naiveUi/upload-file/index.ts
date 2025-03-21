@@ -1,78 +1,84 @@
-import { type ComponentConfigModel } from '@epic-designer/utils'
+import type { ComponentConfigModel } from '@epic-designer/utils';
+
 export default {
+  bindModel: 'modelValue',
   component: () => import('./uploadFile'),
-  defaultSchema: {
-    label: '上传文件',
-    type: 'upload-file',
-    icon: 'epic-icon-upload',
-    field: 'uploadFile',
-    input: true,
-    componentProps: {
-      action: 'https://mock.presstime.cn/mock/6562298755736ae9dfa4646a/epic/upload'
-    }
-  },
   config: {
     attribute: [
       {
+        field: 'field',
         label: '字段名',
         type: 'input',
-        field: 'field'
       },
       {
-        label: '文字',
+        field: 'label',
+        label: '标题',
         type: 'input',
-        field: 'label'
       },
       {
+        field: 'componentProps.action',
         label: '请求地址',
         type: 'input',
-        field: 'componentProps.action'
       },
       {
+        componentProps: {
+          placeholder: '请输入',
+        },
+        field: 'componentProps.name',
         label: '上传文件字段',
         type: 'input',
-        field: 'componentProps.name',
-        componentProps: {
-          placeholder: '请输入'
-        }
       },
       {
+        componentProps: {
+          min: 0,
+          placeholder: '请输入',
+        },
+        field: 'componentProps.max',
         label: '允许上传最大数量',
         type: 'number',
-        field: 'componentProps.max',
-        componentProps: {
-          min:0,
-          placeholder: '请输入'
-        }
       },
       {
+        field: 'componentProps.showFileList',
         label: '展示文件列表',
         type: 'switch',
-        field: 'componentProps.showFileList'
       },
       {
+        field: 'componentProps.multiple',
         label: '多选',
         type: 'switch',
-        field: 'componentProps.multiple'
       },
       {
+        field: 'componentProps.disabled',
         label: '禁用',
         type: 'switch',
-        field: 'componentProps.disabled'
       },
       {
+        field: 'componentProps.hidden',
         label: '隐藏',
         type: 'switch',
-        field: 'componentProps.hidden'
       },
       {
-        label: '表单校验',
-        type: 'ERuleEditor',
-        layout: 'vertical',
+        componentProps: {
+          ruleType: 'array',
+        },
+        description: '校验规则需要配合表单使用',
         field: 'rules',
-        describe: '校验规则需要配合表单使用'
-      }
-    ]
+        label: '表单校验',
+        layout: 'vertical',
+        type: 'ERuleEditor',
+      },
+    ],
   },
-  bindModel: 'modelValue'
-} as ComponentConfigModel
+  defaultSchema: {
+    componentProps: {
+      action: 'https://examples.epicjs.cn/epic-mock/common/upload',
+    },
+    field: 'uploadFile',
+    input: true,
+    label: '上传文件',
+    type: 'upload-file',
+  },
+  groupName: '表单',
+  icon: 'icon--epic--upload-rounded',
+  sort: 920,
+} as ComponentConfigModel;

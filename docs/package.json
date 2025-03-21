@@ -1,10 +1,14 @@
 {
   "name": "@epic-designer/docs",
-  "version": "1.0.0",
+  "version": "0.9.30",
   "description": "epic-designer docs",
   "author": "kchengz",
+  "type": "module",
   "dependencies": {
-    "monaco-editor": "^0.34.1"
+    "ant-design-vue": "^4.2.6",
+    "dayjs": "^1.11.13",
+    "element-plus": "^2.9.1",
+    "monaco-editor": "^0.52.2"
   },
   "devDependencies": {
     "vite-plugin-monaco-editor": "^1.1.0"

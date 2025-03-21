@@ -1,31 +1,38 @@
-import { defineComponent, h, renderSlot, type PropType } from 'vue'
-import { ElCollapseItem } from 'element-plus'
-import { type NodeItem } from '@epic-designer/core/types/epic-designer'
+import type { ComponentSchema } from '@epic-designer/types';
+
+import type { PropType } from 'vue';
+
+import { defineComponent, h, renderSlot } from 'vue';
+
+import { ElCollapseItem } from 'element-plus';
+
 export default defineComponent({
   props: {
-    record: {
-      type: Object as PropType<NodeItem>,
+    componentSchema: {
+      default: () => ({}),
       require: true,
-      default: () => ({})
-    }
+      type: Object as PropType<ComponentSchema>,
+    },
   },
-  setup (props, { slots }) {
+  setup(props, { slots }) {
     return () => {
-      const record = {
-        ...props.record,
-        title: props.record?.label ?? ''
-      } as any
-      const children = record.children
-      delete record.children
+      const componentSchema = {
+        ...props.componentSchema,
+        title: props.componentSchema?.label ?? '',
+      } as any;
+      const children = componentSchema.children;
+      delete componentSchema.children;
 
-      return h(ElCollapseItem, record, {
+      return h(ElCollapseItem, componentSchema, {
         default: () =>
           renderSlot(slots, 'edit-node', {}, () =>
-            children.map((record: NodeItem) =>
-              renderSlot(slots, 'node', { record })
-            )
-          )
-      })
-    }
-  }
-})
+            children.map((subcomponentSchema: ComponentSchema) =>
+              renderSlot(slots, 'node', {
+                componentSchema: subcomponentSchema,
+              }),
+            ),
+          ),
+      });
+    };
+  },
+});

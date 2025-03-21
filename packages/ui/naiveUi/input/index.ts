@@ -1,215 +1,222 @@
-import { type ComponentConfigModel } from "@epic-designer/utils";
+import type { ComponentConfigModel } from '@epic-designer/utils';
+
 export default {
+  bindModel: 'value',
   component: async () => (await import('naive-ui/lib/input')).NInput,
-  defaultSchema: {
-    label: "输入框",
-    type: "input",
-    field: "input",
-    icon: "epic-icon-write",
-    input: true,
-    componentProps: {
-      defaultValue: "",
-      placeholder: "请输入",
-      type: "text",
-      size: "medium",
-    },
-  },
   config: {
+    action: [
+      {
+        description: '使 input 获取焦点',
+        type: 'focus',
+      },
+      {
+        description: '使 input 失去焦点',
+        type: 'blur',
+      },
+      {
+        description: '清除 input 值',
+        type: 'clear',
+      },
+      {
+        description: '选中 input 中的文字',
+        type: 'select',
+      },
+    ],
     attribute: [
       {
-        label: "字段名",
-        type: "input",
-        field: "field",
+        field: 'field',
+        label: '字段名',
+        type: 'input',
       },
       {
-        label: "标题",
-        type: "input",
-        field: "label",
+        field: 'label',
+        label: '标题',
+        type: 'input',
       },
       {
-        label: "默认值",
-        type: "input",
-        field: "componentProps.defaultValue",
+        field: 'componentProps.defaultValue',
+        label: '默认值',
+        type: 'input',
       },
       {
-        label: "占位内容",
-        type: "input",
-        field: "componentProps.placeholder",
+        field: 'componentProps.placeholder',
+        label: '占位内容',
+        type: 'input',
       },
       {
-        label: "尺寸",
-        type: "select",
-        field: "componentProps.size",
         componentProps: {
-          options: [
-            {
-              label: "tiny",
-              value: "tiny",
-            },
-            {
-              label: "small",
-              value: "small",
-            },
-            {
-              label: "medium",
-              value: "medium",
-            },
-            {
-              label: "large",
-              value: "large",
-            },
-          ],
-        },
-      },
-      {
-        label: "输入类型",
-        type: "select",
-        defaultValue: "text",
-        componentProps: {
-          options: [
-            {
-              label: "text",
-              value: "text",
-            },
-            {
-              label: "textarea",
-              value: "textarea",
-            },
-            {
-              label: "password",
-              value: "password",
-            },
-          ],
-        },
-        field: "componentProps.type",
-        onChange: ({ value, values }) => {
-          if (value != "text") values.componentProps.pair = false;
-        },
-      },
-      {
-        label: "最大输入长度",
-        type: "number",
-        field: "componentProps.maxlength",
-        componentProps: {
-          placeholder: "请输入",
-        },
-      },
-      {
-        label: "显示密码的时机",
-        type: "select",
-        field: "componentProps.showPasswordOn",
-        componentProps: {
-          options: [
-            {
-              label: "click",
-              value: "click",
-            },
-            {
-              label: "mousedown",
-              value: "mousedown",
-            },
-          ],
           clearable: true,
+          options: [
+            {
+              label: '极小',
+              value: 'tiny',
+            },
+            {
+              label: '小型',
+              value: 'small',
+            },
+            {
+              label: '中等',
+              value: 'medium',
+            },
+            {
+              label: '大号',
+              value: 'large',
+            },
+          ],
+          placeholder: '请选择',
         },
-        show: ({ values }) => values.componentProps.type === "password",
+        field: 'componentProps.size',
+        label: '尺寸',
+        type: 'select',
       },
       {
-        label: "行数",
-        type: "number",
-        field: "componentProps.rows",
-        show: ({ values }) => values.componentProps.type === "textarea",
-      },
-      {
-        label: "是否输入成对值",
-        type: "switch",
-        field: "componentProps.pair",
-        show: ({ values }) => values.componentProps.type === "text",
-      },
-      {
-        label: "分割符",
-        type: "input",
-        field: "componentProps.separator",
-        show: ({ values }) =>
-          values.componentProps.type === "text" && values.componentProps.pair,
         componentProps: {
-          placeholder: "请输入",
+          clearable: true,
+          options: [
+            {
+              label: 'text',
+              value: 'text',
+            },
+            {
+              label: 'textarea',
+              value: 'textarea',
+            },
+            {
+              label: 'password',
+              value: 'password',
+            },
+          ],
+          placeholder: '请选择',
         },
+        defaultValue: 'text',
+        field: 'componentProps.type',
+        label: '输入类型',
+        onChange: ({ value, values }) => {
+          if (value !== 'text') values.componentProps.pair = false;
+        },
+        type: 'select',
       },
       {
-        label: "是否圆角",
-        type: "switch",
-        field: "componentProps.round",
+        componentProps: {
+          placeholder: '请输入',
+        },
+        field: 'componentProps.maxlength',
+        label: '最大输入长度',
+        type: 'number',
       },
       {
-        label: "是否统计字数",
-        type: "switch",
-        field: "componentProps.showCount",
+        componentProps: {
+          clearable: true,
+          options: [
+            {
+              label: 'click',
+              value: 'click',
+            },
+            {
+              label: 'mousedown',
+              value: 'mousedown',
+            },
+          ],
+          placeholder: '请选择',
+        },
+        field: 'componentProps.showPasswordOn',
+        label: '显示密码的时机',
+        show: ({ values }) => values.componentProps.type === 'password',
+        type: 'select',
       },
       {
-        label: "自适应内容高度",
-        type: "switch",
-        field: "componentProps.autosize",
-        show: ({ values }) => values.componentProps.type === "textarea",
+        field: 'componentProps.rows',
+        label: '行数',
+        show: ({ values }) => values.componentProps.type === 'textarea',
+        type: 'number',
       },
       {
-        label: "可清空",
-        type: "switch",
-        field: "componentProps.clearable",
+        field: 'componentProps.pair',
+        label: '是否输入成对值',
+        show: ({ values }) => values.componentProps.type === 'text',
+        type: 'switch',
       },
       {
-        label: "禁用",
-        type: "switch",
-        field: "componentProps.disabled",
+        componentProps: {
+          placeholder: '请输入',
+        },
+        field: 'componentProps.separator',
+        label: '分割符',
+        show: ({ values }) =>
+          values.componentProps.type === 'text' && values.componentProps.pair,
+        type: 'input',
       },
       {
-        label: "隐藏",
-        type: "switch",
-        field: "componentProps.hidden",
+        field: 'componentProps.round',
+        label: '是否圆角',
+        type: 'switch',
       },
       {
-        label: "表单校验",
-        type: "ERuleEditor",
-        layout: "vertical",
-        field: "rules",
-        describe: "校验规则需要配合表单使用",
+        field: 'componentProps.showCount',
+        label: '是否统计字数',
+        type: 'switch',
+      },
+      {
+        field: 'componentProps.autosize',
+        label: '自适应内容高度',
+        show: ({ values }) => values.componentProps.type === 'textarea',
+        type: 'switch',
+      },
+      {
+        field: 'componentProps.clearable',
+        label: '可清空',
+        type: 'switch',
+      },
+      {
+        field: 'componentProps.disabled',
+        label: '禁用',
+        type: 'switch',
+      },
+      {
+        field: 'componentProps.hidden',
+        label: '隐藏',
+        type: 'switch',
+      },
+      {
+        description: '校验规则需要配合表单使用',
+        field: 'rules',
+        label: '表单校验',
+        layout: 'vertical',
+        type: 'ERuleEditor',
       },
     ],
     event: [
       {
-        type: "input",
-        describe: "输入值",
+        description: '输入值',
+        type: 'input',
       },
       {
-        type: "change",
-        describe: "值修改",
+        description: '值修改',
+        type: 'change',
       },
       {
-        type: "focus",
-        describe: "获取焦点",
+        description: '获取焦点',
+        type: 'focus',
       },
       {
-        type: "blur",
-        describe: "失去焦点",
-      },
-    ],
-    action: [
-      {
-        type: "focus",
-        describe: "使 input 获取焦点",
-      },
-      {
-        type: "blur",
-        describe: "使 input 失去焦点",
-      },
-      {
-        type: "clear",
-        describe: "清除 input 值",
-      },
-      {
-        type: "select",
-        describe: "选中 input 中的文字",
+        description: '失去焦点',
+        type: 'blur',
       },
     ],
   },
-  bindModel: "value",
+  defaultSchema: {
+    componentProps: {
+      defaultValue: '',
+      placeholder: '请输入',
+      type: 'text',
+    },
+    field: 'input',
+    input: true,
+    label: '输入框',
+    type: 'input',
+  },
+  groupName: '表单',
+  icon: 'icon--epic--border-color-outline-rounded',
+  sort: 700,
 } as ComponentConfigModel;
