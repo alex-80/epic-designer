@@ -11,8 +11,8 @@
       "@/*": ["./src/*"]
     },
     "resolveJsonModule": true,
+    "types": ["vite/client"],
     "allowImportingTsExtensions": true,
-
     /* Linting */
     "strict": true,
     "noFallthroughCasesInSwitch": true,
