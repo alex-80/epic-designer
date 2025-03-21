@@ -41,7 +41,7 @@ jobs:
 
       - name: Build examples
         run: pnpm run examples:build
-        environment:
+        env:
           CI_EXAMPLES_BASE: /${{ steps.repo-name.outputs.repository-name }}/
 
       - name: Upload static files as artifact
